@@ -2,6 +2,24 @@
 
 ## 2026-07-09
 
+Command reference.
+
+Changes made:
+
+- Added central command metadata in the CLI.
+- Added `zany commands` command.
+- Added tests for command names and Markdown command reference output.
+- Added `docs/commands.md`.
+- Updated README and `docs/ideas.md`.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- `docs/commands.md` is now part of the expected scaffold.
+- Next useful task: add a contribution checklist or development notes page.
+
+## 2026-07-09
+
 Static status page command.
 
 Changes made:
