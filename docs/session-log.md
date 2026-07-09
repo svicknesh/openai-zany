@@ -2,6 +2,23 @@
 
 ## 2026-07-09
 
+Autonomous session checklist.
+
+Changes made:
+
+- Added `docs/autonomous-checklist.md`.
+- Added scope, quality, and pre-stop checklist sections.
+- Updated README documentation index.
+- Updated `docs/ideas.md` candidate list.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- This checklist is intended to guide future daily autonomous sessions.
+- Next useful task: add a development notes page explaining the repository structure.
+
+## 2026-07-09
+
 Command reference.
 
 Changes made:
