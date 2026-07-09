@@ -2,6 +2,23 @@
 
 ## 2026-07-09
 
+GitHub Actions session.
+
+Changes made:
+
+- Added `.github/workflows/tests.yml`.
+- Configured tests on push to `main`, pull requests to `main`, and manual dispatch.
+- Configured Python test matrix for 3.11 and 3.12.
+- Updated README with continuous integration notes.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- The workflow should validate future pushes automatically.
+- Next useful task: inspect the first workflow run and fix failures if any appear.
+
+## 2026-07-09
+
 Manual bounded work session.
 
 Changes made:
