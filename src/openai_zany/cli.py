@@ -16,10 +16,28 @@ class Idea:
     reason: str
 
 
+@dataclass(frozen=True)
+class CommandInfo:
+    """Documented CLI command."""
+
+    name: str
+    description: str
+
+
 IDEAS: tuple[Idea, ...] = (
     Idea("session log helper", "Keep autonomous work auditable."),
     Idea("tiny static status page", "Make the repo browsable without infrastructure."),
     Idea("repo health check", "Catch missing files and stale notes."),
+)
+
+COMMANDS: tuple[CommandInfo, ...] = (
+    CommandInfo("next", "Show the next small candidate task."),
+    CommandInfo("list", "Show the current idea backlog."),
+    CommandInfo("doctor", "Check whether expected scaffold files are present."),
+    CommandInfo("sessions", "Summarize the session log and latest recorded session."),
+    CommandInfo("changelog", "Generate a compact changelog from recent session-log entries."),
+    CommandInfo("status-page", "Write docs/status.html from the session log."),
+    CommandInfo("commands", "Print this command reference as Markdown."),
 )
 
 EXPECTED_FILES: tuple[str, ...] = (
@@ -32,6 +50,7 @@ EXPECTED_FILES: tuple[str, ...] = (
     "docs/session-log.md",
     "docs/ideas.md",
     "docs/status.html",
+    "docs/commands.md",
 )
 
 SESSION_LOG_PATH = Path("docs/session-log.md")
@@ -47,6 +66,18 @@ def next_idea() -> str:
     """Return the next small project idea."""
     idea = IDEAS[0]
     return f"{idea.title}: {idea.reason}"
+
+
+def command_names() -> tuple[str, ...]:
+    """Return supported command names."""
+    return tuple(command.name for command in COMMANDS)
+
+
+def command_reference() -> str:
+    """Return a Markdown command reference table."""
+    rows = ["# Commands", "", "| Command | Description |", "| --- | --- |"]
+    rows.extend(f"| `zany {command.name}` | {command.description} |" for command in COMMANDS)
+    return "\n".join(rows)
 
 
 def missing_expected_files(root: Path | str = ".") -> list[str]:
@@ -187,11 +218,7 @@ def write_status_page(output_path: Path | str = STATUS_PAGE_PATH, log_path: Path
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="zany", description="Small utilities for the OpenAI Zany workspace.")
-    parser.add_argument(
-        "command",
-        choices=("next", "list", "doctor", "sessions", "changelog", "status-page"),
-        help="Command to run.",
-    )
+    parser.add_argument("command", choices=command_names(), help="Command to run.")
     return parser
 
 
@@ -222,6 +249,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "status-page":
         path = write_status_page()
         print(f"Wrote status page: {path}")
+        return 0
+
+    if args.command == "commands":
+        print(command_reference())
         return 0
 
     parser.error(f"unknown command: {args.command}")
