@@ -2,6 +2,23 @@
 
 ## 2026-07-09
 
+Changelog command.
+
+Changes made:
+
+- Added `zany changelog` command.
+- Added session block parsing and top-level bullet extraction.
+- Added tests for changelog generation and missing-log handling.
+- Updated README command documentation.
+- Refreshed `docs/ideas.md` to separate completed and candidate tasks.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- Next useful task: add a small static HTML status page or generator.
+
+## 2026-07-09
+
 Session summary command.
 
 Changes made:
