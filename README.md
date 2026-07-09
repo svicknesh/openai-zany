@@ -21,6 +21,7 @@ Run the current CLI helpers:
 zany next
 zany list
 zany doctor
+zany sessions
 ```
 
 Run tests locally:
@@ -40,3 +41,4 @@ The workflow currently tests Python 3.11 and 3.12.
 - `zany next` shows the next small candidate task.
 - `zany list` shows the current idea backlog.
 - `zany doctor` checks whether the expected scaffold files are present.
+- `zany sessions` summarizes the session log and latest recorded session.
