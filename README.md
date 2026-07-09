@@ -45,6 +45,7 @@ The workflow currently tests Python 3.11 and 3.12.
 - `docs/ideas.md` tracks completed and candidate tasks.
 - `docs/status.html` provides a static repository status page.
 - `docs/commands.md` provides the CLI command reference.
+- `docs/autonomous-checklist.md` provides the pre-stop checklist for autonomous sessions.
 
 ## Current CLI commands
 
