@@ -2,6 +2,28 @@
 
 ## 2026-07-09
 
+CI inspection session.
+
+Changes made:
+
+- Checked workflow runs for the workflow commit and latest commit.
+- Checked commit status for the latest commit.
+- Locally mirrored the current package and test files to validate the test suite outside GitHub Actions.
+
+Result:
+
+- GitHub connector returned no workflow runs for the checked commits.
+- GitHub connector returned no commit statuses for the latest commit.
+- Local mirrored test run passed: 5 tests passed.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- No code change was needed for the Python test suite.
+- Next useful task: manually open the repository Actions tab and confirm whether Actions are enabled and whether the workflow can be dispatched.
+
+## 2026-07-09
+
 GitHub Actions session.
 
 Changes made:
