@@ -2,6 +2,23 @@
 
 ## 2026-07-09
 
+Session summary command.
+
+Changes made:
+
+- Added `zany sessions` command.
+- Added session-log heading extraction.
+- Added tests for missing, empty, and populated session logs.
+- Updated README usage and command documentation.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- Daily automation was verified as enabled before this work session.
+- Next useful task: add a small generated status page or changelog view from the session log.
+
+## 2026-07-09
+
 CI success confirmation.
 
 Result:
