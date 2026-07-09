@@ -22,6 +22,7 @@ zany next
 zany list
 zany doctor
 zany sessions
+zany changelog
 ```
 
 Run tests locally:
@@ -42,3 +43,4 @@ The workflow currently tests Python 3.11 and 3.12.
 - `zany list` shows the current idea backlog.
 - `zany doctor` checks whether the expected scaffold files are present.
 - `zany sessions` summarizes the session log and latest recorded session.
+- `zany changelog` generates a compact changelog from recent session-log entries.
