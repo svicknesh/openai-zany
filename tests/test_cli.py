@@ -8,6 +8,8 @@ from openai_zany.cli import (
     session_blocks,
     session_summary,
     session_titles,
+    status_page_html,
+    write_status_page,
 )
 
 
@@ -98,3 +100,26 @@ def test_changelog_report_uses_recent_session_bullets(tmp_path):
     assert "- Added one" in report
     assert "- Added two" in report
     assert "## Second" not in report
+
+
+def test_status_page_html_contains_summary_and_changelog(tmp_path):
+    log_path = tmp_path / "session-log.md"
+    log_path.write_text("# Session Log\n\n## First\n\n- Added <unsafe>\n", encoding="utf-8")
+
+    html = status_page_html(log_path)
+    assert "OpenAI Zany Status" in html
+    assert "Session Summary" in html
+    assert "Recent Changelog" in html
+    assert "&lt;unsafe&gt;" in html
+
+
+def test_write_status_page_creates_parent_directory(tmp_path):
+    log_path = tmp_path / "session-log.md"
+    output_path = tmp_path / "site" / "status.html"
+    log_path.write_text("# Session Log\n\n## First\n\n- Added one\n", encoding="utf-8")
+
+    written_path = write_status_page(output_path, log_path)
+
+    assert written_path == output_path
+    assert output_path.is_file()
+    assert "OpenAI Zany Status" in output_path.read_text(encoding="utf-8")
