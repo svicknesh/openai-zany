@@ -23,6 +23,7 @@ zany list
 zany doctor
 zany sessions
 zany changelog
+zany status-page
 ```
 
 Run tests locally:
@@ -44,3 +45,4 @@ The workflow currently tests Python 3.11 and 3.12.
 - `zany doctor` checks whether the expected scaffold files are present.
 - `zany sessions` summarizes the session log and latest recorded session.
 - `zany changelog` generates a compact changelog from recent session-log entries.
+- `zany status-page` writes `docs/status.html` from the session log.
