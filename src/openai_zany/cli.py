@@ -83,9 +83,64 @@ def session_summary(log_path: Path | str = SESSION_LOG_PATH) -> str:
     return f"Session log: OK\nTotal sessions: {len(titles)}\nLatest session: {titles[0]}"
 
 
+def session_blocks(log_text: str) -> list[tuple[str, list[str]]]:
+    """Return session headings and their body lines from a Markdown session log."""
+    blocks: list[tuple[str, list[str]]] = []
+    current_title: str | None = None
+    current_lines: list[str] = []
+
+    for line in log_text.splitlines():
+        if line.startswith("## "):
+            if current_title is not None:
+                blocks.append((current_title, current_lines))
+            current_title = line.removeprefix("## ").strip()
+            current_lines = []
+            continue
+
+        if current_title is not None:
+            current_lines.append(line)
+
+    if current_title is not None:
+        blocks.append((current_title, current_lines))
+
+    return blocks
+
+
+def bullet_lines(lines: list[str]) -> list[str]:
+    """Return top-level Markdown bullet lines without the bullet marker."""
+    return [line.removeprefix("- ").strip() for line in lines if line.startswith("- ")]
+
+
+def changelog_report(log_path: Path | str = SESSION_LOG_PATH, limit: int = 5) -> str:
+    """Return a compact changelog generated from recent session-log entries."""
+    path = Path(log_path)
+
+    if not path.is_file():
+        return f"Changelog: MISSING\nExpected path: {path}"
+
+    blocks = session_blocks(path.read_text(encoding="utf-8"))
+
+    if not blocks:
+        return f"Changelog: EMPTY\nPath: {path}"
+
+    sections: list[str] = ["# Changelog", ""]
+    for title, lines in blocks[:limit]:
+        sections.append(f"## {title}")
+        bullets = bullet_lines(lines)
+
+        if bullets:
+            sections.extend(f"- {bullet}" for bullet in bullets[:6])
+        else:
+            sections.append("- No bullet summary recorded.")
+
+        sections.append("")
+
+    return "\n".join(sections).rstrip()
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="zany", description="Small utilities for the OpenAI Zany workspace.")
-    parser.add_argument("command", choices=("next", "list", "doctor", "sessions"), help="Command to run.")
+    parser.add_argument("command", choices=("next", "list", "doctor", "sessions", "changelog"), help="Command to run.")
     return parser
 
 
@@ -107,6 +162,10 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "sessions":
         print(session_summary())
+        return 0 if SESSION_LOG_PATH.is_file() else 1
+
+    if args.command == "changelog":
+        print(changelog_report())
         return 0 if SESSION_LOG_PATH.is_file() else 1
 
     parser.error(f"unknown command: {args.command}")
