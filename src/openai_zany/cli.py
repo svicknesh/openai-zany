@@ -32,6 +32,8 @@ EXPECTED_FILES: tuple[str, ...] = (
     "docs/ideas.md",
 )
 
+SESSION_LOG_PATH = Path("docs/session-log.md")
+
 
 def list_ideas() -> str:
     """Return all current project ideas as display text."""
@@ -61,9 +63,29 @@ def doctor_report(root: Path | str = ".") -> str:
     return f"Repository health: ATTENTION\nMissing expected files:\n{missing_lines}"
 
 
+def session_titles(log_text: str) -> list[str]:
+    """Return second-level Markdown headings from the session log."""
+    return [line.removeprefix("## ").strip() for line in log_text.splitlines() if line.startswith("## ")]
+
+
+def session_summary(log_path: Path | str = SESSION_LOG_PATH) -> str:
+    """Return a short summary of recorded work sessions."""
+    path = Path(log_path)
+
+    if not path.is_file():
+        return f"Session log: MISSING\nExpected path: {path}"
+
+    titles = session_titles(path.read_text(encoding="utf-8"))
+
+    if not titles:
+        return f"Session log: EMPTY\nPath: {path}"
+
+    return f"Session log: OK\nTotal sessions: {len(titles)}\nLatest session: {titles[0]}"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="zany", description="Small utilities for the OpenAI Zany workspace.")
-    parser.add_argument("command", choices=("next", "list", "doctor"), help="Command to run.")
+    parser.add_argument("command", choices=("next", "list", "doctor", "sessions"), help="Command to run.")
     return parser
 
 
@@ -82,6 +104,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "doctor":
         print(doctor_report())
         return 0 if not missing_expected_files() else 1
+
+    if args.command == "sessions":
+        print(session_summary())
+        return 0 if SESSION_LOG_PATH.is_file() else 1
 
     parser.error(f"unknown command: {args.command}")
     return 2
