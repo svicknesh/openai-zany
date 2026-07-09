@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+from html import escape
 from pathlib import Path
 
 
@@ -30,9 +31,11 @@ EXPECTED_FILES: tuple[str, ...] = (
     "tests/test_cli.py",
     "docs/session-log.md",
     "docs/ideas.md",
+    "docs/status.html",
 )
 
 SESSION_LOG_PATH = Path("docs/session-log.md")
+STATUS_PAGE_PATH = Path("docs/status.html")
 
 
 def list_ideas() -> str:
@@ -138,9 +141,57 @@ def changelog_report(log_path: Path | str = SESSION_LOG_PATH, limit: int = 5) ->
     return "\n".join(sections).rstrip()
 
 
+def status_page_html(log_path: Path | str = SESSION_LOG_PATH) -> str:
+    """Return a static HTML status page for the repository."""
+    summary = session_summary(log_path)
+    changelog = changelog_report(log_path, limit=3)
+    summary_html = "<br>".join(escape(line) for line in summary.splitlines())
+    changelog_html = escape(changelog)
+
+    return f"""<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"utf-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <title>OpenAI Zany Status</title>
+  <style>
+    body {{ font-family: system-ui, sans-serif; max-width: 840px; margin: 3rem auto; padding: 0 1rem; line-height: 1.5; }}
+    code, pre {{ background: #f6f8fa; border-radius: 0.4rem; }}
+    pre {{ padding: 1rem; overflow-x: auto; }}
+    .card {{ border: 1px solid #d0d7de; border-radius: 0.75rem; padding: 1rem; margin: 1rem 0; }}
+  </style>
+</head>
+<body>
+  <h1>OpenAI Zany Status</h1>
+  <p>Generated from the repository session log.</p>
+  <section class=\"card\">
+    <h2>Session Summary</h2>
+    <p>{summary_html}</p>
+  </section>
+  <section class=\"card\">
+    <h2>Recent Changelog</h2>
+    <pre>{changelog_html}</pre>
+  </section>
+</body>
+</html>
+"""
+
+
+def write_status_page(output_path: Path | str = STATUS_PAGE_PATH, log_path: Path | str = SESSION_LOG_PATH) -> Path:
+    """Write the static status page and return its path."""
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(status_page_html(log_path), encoding="utf-8")
+    return path
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="zany", description="Small utilities for the OpenAI Zany workspace.")
-    parser.add_argument("command", choices=("next", "list", "doctor", "sessions", "changelog"), help="Command to run.")
+    parser.add_argument(
+        "command",
+        choices=("next", "list", "doctor", "sessions", "changelog", "status-page"),
+        help="Command to run.",
+    )
     return parser
 
 
@@ -167,6 +218,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "changelog":
         print(changelog_report())
         return 0 if SESSION_LOG_PATH.is_file() else 1
+
+    if args.command == "status-page":
+        path = write_status_page()
+        print(f"Wrote status page: {path}")
+        return 0
 
     parser.error(f"unknown command: {args.command}")
     return 2
