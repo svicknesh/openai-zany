@@ -2,6 +2,24 @@
 
 ## 2026-07-09
 
+Static status page command.
+
+Changes made:
+
+- Added `zany status-page` command.
+- Added HTML status-page rendering from the session log.
+- Added safe HTML escaping for rendered log content.
+- Added tests for status-page HTML and file writing.
+- Updated README and `docs/ideas.md`.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- `docs/status.html` is now part of the expected scaffold.
+- Next useful task: add a generated commands reference page.
+
+## 2026-07-09
+
 Changelog command.
 
 Changes made:
