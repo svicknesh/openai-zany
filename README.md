@@ -23,11 +23,17 @@ zany list
 zany doctor
 ```
 
-Run tests:
+Run tests locally:
 
 ```bash
 pytest
 ```
+
+## Continuous integration
+
+GitHub Actions runs the Python test suite on pushes to `main`, pull requests targeting `main`, and manual workflow dispatch.
+
+The workflow currently tests Python 3.11 and 3.12.
 
 ## Current CLI commands
 
