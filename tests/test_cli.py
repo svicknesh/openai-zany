@@ -1,6 +1,8 @@
 from openai_zany.cli import (
     bullet_lines,
     changelog_report,
+    command_names,
+    command_reference,
     doctor_report,
     list_ideas,
     missing_expected_files,
@@ -21,6 +23,21 @@ def test_list_ideas_has_entries():
     text = list_ideas()
     assert "session log helper" in text
     assert "repo health check" in text
+
+
+def test_command_names_include_documented_commands():
+    names = command_names()
+    assert "doctor" in names
+    assert "status-page" in names
+    assert "commands" in names
+
+
+def test_command_reference_is_markdown_table():
+    reference = command_reference()
+    assert "# Commands" in reference
+    assert "| Command | Description |" in reference
+    assert "`zany doctor`" in reference
+    assert "`zany commands`" in reference
 
 
 def test_missing_expected_files_detects_empty_directory(tmp_path):
