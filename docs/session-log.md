@@ -1,5 +1,24 @@
 # Session Log
 
+## 2026-07-10
+
+Development notes page.
+
+Changes made:
+
+- Added `docs/development.md`.
+- Documented the repository structure and local workflow.
+- Added `docs/development.md` to the doctor expected-file list.
+- Updated test coverage for the new scaffold expectation.
+- Updated README documentation index.
+- Updated `docs/ideas.md` candidate list.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- Tests were updated but not executed in this connector session.
+- Next useful task: add a lightweight release notes template.
+
 ## 2026-07-09
 
 Autonomous session checklist.
