@@ -49,6 +49,7 @@ EXPECTED_FILES: tuple[str, ...] = (
     "tests/test_cli.py",
     "docs/session-log.md",
     "docs/ideas.md",
+    "docs/development.md",
     "docs/status.html",
     "docs/commands.md",
 )
