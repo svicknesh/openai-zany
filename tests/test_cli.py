@@ -44,6 +44,7 @@ def test_missing_expected_files_detects_empty_directory(tmp_path):
     missing = missing_expected_files(tmp_path)
     assert "README.md" in missing
     assert "src/openai_zany/cli.py" in missing
+    assert "docs/development.md" in missing
 
 
 def test_doctor_report_is_ok_for_complete_scaffold(tmp_path):
