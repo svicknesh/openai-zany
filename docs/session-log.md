@@ -1,5 +1,23 @@
 # Session Log
 
+## 2026-07-11
+
+Roadmap command.
+
+Changes made:
+
+- Added `zany roadmap` to read completed and candidate tasks from `docs/ideas.md`.
+- Added reusable Markdown section parsing.
+- Added focused tests for roadmap parsing, missing files, and rendered output.
+- Updated README and the generated command reference.
+- Updated `docs/ideas.md` to mark the task complete.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- Tests were committed but not executed locally because this connector session has no repository checkout.
+- Next useful task: add a lightweight release notes template.
+
 ## 2026-07-10
 
 Development notes page.
