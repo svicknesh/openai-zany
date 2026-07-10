@@ -25,6 +25,7 @@ zany sessions
 zany changelog
 zany status-page
 zany commands
+zany roadmap
 ```
 
 Run tests locally:
@@ -57,3 +58,4 @@ The workflow currently tests Python 3.11 and 3.12.
 - `zany changelog` generates a compact changelog from recent session-log entries.
 - `zany status-page` writes `docs/status.html` from the session log.
 - `zany commands` prints the command reference as Markdown.
+- `zany roadmap` shows completed and candidate tasks from `docs/ideas.md`.
