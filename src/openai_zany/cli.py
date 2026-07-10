@@ -38,6 +38,7 @@ COMMANDS: tuple[CommandInfo, ...] = (
     CommandInfo("changelog", "Generate a compact changelog from recent session-log entries."),
     CommandInfo("status-page", "Write docs/status.html from the session log."),
     CommandInfo("commands", "Print this command reference as Markdown."),
+    CommandInfo("roadmap", "Show completed and candidate tasks from docs/ideas.md."),
 )
 
 EXPECTED_FILES: tuple[str, ...] = (
@@ -56,6 +57,7 @@ EXPECTED_FILES: tuple[str, ...] = (
 
 SESSION_LOG_PATH = Path("docs/session-log.md")
 STATUS_PAGE_PATH = Path("docs/status.html")
+IDEAS_PATH = Path("docs/ideas.md")
 
 
 def list_ideas() -> str:
@@ -79,6 +81,38 @@ def command_reference() -> str:
     rows = ["# Commands", "", "| Command | Description |", "| --- | --- |"]
     rows.extend(f"| `zany {command.name}` | {command.description} |" for command in COMMANDS)
     return "\n".join(rows)
+
+
+def markdown_section_bullets(markdown: str, heading: str) -> list[str]:
+    """Return top-level bullets below a second-level heading."""
+    bullets: list[str] = []
+    in_section = False
+
+    for line in markdown.splitlines():
+        if line.startswith("## "):
+            in_section = line.removeprefix("## ").strip() == heading
+            continue
+        if in_section and line.startswith("- "):
+            bullets.append(line.removeprefix("- ").strip())
+
+    return bullets
+
+
+def roadmap_report(ideas_path: Path | str = IDEAS_PATH) -> str:
+    """Return completed and candidate tasks from the project ideas document."""
+    path = Path(ideas_path)
+    if not path.is_file():
+        return f"Roadmap: MISSING\nExpected path: {path}"
+
+    markdown = path.read_text(encoding="utf-8")
+    completed = markdown_section_bullets(markdown, "Completed")
+    candidates = markdown_section_bullets(markdown, "Candidate tasks")
+
+    lines = ["# Roadmap", "", "## Completed"]
+    lines.extend(f"- {item}" for item in completed or ["No completed tasks recorded."])
+    lines.extend(["", "## Candidate tasks"])
+    lines.extend(f"- {item}" for item in candidates or ["No candidate tasks recorded."])
+    return "\n".join(lines)
 
 
 def missing_expected_files(root: Path | str = ".") -> list[str]:
@@ -255,6 +289,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "commands":
         print(command_reference())
         return 0
+
+    if args.command == "roadmap":
+        print(roadmap_report())
+        return 0 if IDEAS_PATH.is_file() else 1
 
     parser.error(f"unknown command: {args.command}")
     return 2
