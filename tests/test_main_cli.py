@@ -9,9 +9,11 @@ def test_registered_commands_adds_integrated_commands_once(monkeypatch):
     assert [command.name for command in commands] == ["doctor", "docs-diff", "sessions-json"]
 
 
-def test_main_routes_next_to_maintained_backlog(monkeypatch, capsys):
+def test_main_routes_next_to_maintained_backlog(monkeypatch, capsys, tmp_path):
+    ideas_path = tmp_path / "ideas.md"
+    ideas_path.write_text("# Ideas\n\n## Candidate tasks\n\n- maintained task\n", encoding="utf-8")
+    monkeypatch.setattr(main_cli.backlog, "DEFAULT_IDEAS_PATH", ideas_path)
     monkeypatch.setattr(main_cli.backlog, "next_report", lambda: "Next idea: maintained task")
-    monkeypatch.setattr(main_cli.backlog.DEFAULT_IDEAS_PATH, "is_file", lambda: True)
 
     result = main_cli.main(["next"])
 
@@ -19,9 +21,11 @@ def test_main_routes_next_to_maintained_backlog(monkeypatch, capsys):
     assert capsys.readouterr().out.strip() == "Next idea: maintained task"
 
 
-def test_main_routes_list_to_maintained_backlog(monkeypatch, capsys):
+def test_main_routes_list_to_maintained_backlog(monkeypatch, capsys, tmp_path):
+    ideas_path = tmp_path / "ideas.md"
+    ideas_path.write_text("# Ideas\n\n## Candidate tasks\n\n- maintained task\n", encoding="utf-8")
+    monkeypatch.setattr(main_cli.backlog, "DEFAULT_IDEAS_PATH", ideas_path)
     monkeypatch.setattr(main_cli.backlog, "list_report", lambda: "- maintained task")
-    monkeypatch.setattr(main_cli.backlog.DEFAULT_IDEAS_PATH, "is_file", lambda: True)
 
     result = main_cli.main(["list"])
 
