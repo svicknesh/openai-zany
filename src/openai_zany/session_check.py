@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
-from pathlib import Path
 from collections.abc import Sequence
+from pathlib import Path
 
 DEFAULT_LOG_PATH = Path("docs/session-log.md")
 DATE_HEADING = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -71,15 +72,34 @@ def validate_session_log_text(markdown: str) -> list[str]:
     return errors
 
 
-def session_log_check_report(path: Path | str = DEFAULT_LOG_PATH) -> str:
-    """Return a concise validation report for a session log."""
+def session_log_check_result(path: Path | str = DEFAULT_LOG_PATH) -> dict[str, object]:
+    """Return a stable machine-readable validation result."""
     log_path = Path(path)
     if not log_path.is_file():
-        return f"Session log structure: MISSING\nExpected path: {log_path}"
+        return {
+            "path": str(log_path),
+            "status": "missing",
+            "valid": False,
+            "errors": [f"expected session log at {log_path}"],
+        }
+
     errors = validate_session_log_text(log_path.read_text(encoding="utf-8"))
-    if not errors:
+    return {
+        "path": str(log_path),
+        "status": "valid" if not errors else "invalid",
+        "valid": not errors,
+        "errors": errors,
+    }
+
+
+def session_log_check_report(path: Path | str = DEFAULT_LOG_PATH) -> str:
+    """Return a concise validation report for a session log."""
+    result = session_log_check_result(path)
+    if result["status"] == "missing":
+        return f"Session log structure: MISSING\nExpected path: {result['path']}"
+    if result["valid"]:
         return "Session log structure: VALID\nAll session entries follow the expected format."
-    details = "\n".join(f"- {error}" for error in errors)
+    details = "\n".join(f"- {error}" for error in result["errors"])
     return f"Session log structure: INVALID\n{details}"
 
 
@@ -89,16 +109,23 @@ def build_parser() -> argparse.ArgumentParser:
         description="Validate docs/session-log.md structure without modifying it.",
     )
     parser.add_argument("--path", default=str(DEFAULT_LOG_PATH), help="Session-log path.")
+    parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format. JSON is useful for automation.",
+    )
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    path = Path(args.path)
-    print(session_log_check_report(path))
-    if not path.is_file():
-        return 1
-    return 0 if not validate_session_log_text(path.read_text(encoding="utf-8")) else 1
+    result = session_log_check_result(args.path)
+    if args.format == "json":
+        print(json.dumps(result, indent=2, sort_keys=True))
+    else:
+        print(session_log_check_report(args.path))
+    return 0 if result["valid"] else 1
 
 
 if __name__ == "__main__":
