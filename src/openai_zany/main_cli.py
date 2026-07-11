@@ -6,7 +6,7 @@ import argparse
 import sys
 from collections.abc import Sequence
 
-from . import backlog, cli, docs_diff, session_json
+from . import backlog, cli, docs_diff, session_check, session_json
 
 DOCS_DIFF_COMMAND = cli.CommandInfo(
     "docs-diff",
@@ -16,7 +16,11 @@ SESSIONS_JSON_COMMAND = cli.CommandInfo(
     "sessions-json",
     "Print structured session-log data as JSON.",
 )
-INTEGRATED_COMMANDS = (DOCS_DIFF_COMMAND, SESSIONS_JSON_COMMAND)
+SESSION_LOG_CHECK_COMMAND = cli.CommandInfo(
+    "session-log-check",
+    "Validate the session log structure without modifying it.",
+)
+INTEGRATED_COMMANDS = (DOCS_DIFF_COMMAND, SESSIONS_JSON_COMMAND, SESSION_LOG_CHECK_COMMAND)
 
 
 def registered_commands() -> tuple[cli.CommandInfo, ...]:
@@ -54,6 +58,16 @@ def sessions_json_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def session_log_check_parser() -> argparse.ArgumentParser:
+    """Return the parser for the integrated session-log-check command."""
+    parser = argparse.ArgumentParser(
+        prog="zany session-log-check",
+        description=SESSION_LOG_CHECK_COMMAND.description,
+    )
+    parser.add_argument("--path", default=str(session_check.DEFAULT_LOG_PATH), help="Session-log path.")
+    return parser
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     """Route integrated commands, then delegate established commands."""
     arguments = list(argv) if argv is not None else sys.argv[1:]
@@ -72,6 +86,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.limit is not None:
             forwarded.extend(["--limit", str(args.limit)])
         return session_json.main(forwarded)
+    if arguments and arguments[0] == SESSION_LOG_CHECK_COMMAND.name:
+        args = session_log_check_parser().parse_args(arguments[1:])
+        return session_check.main(["--path", args.path])
 
     cli.COMMANDS = registered_commands()
     return cli.main(arguments)
