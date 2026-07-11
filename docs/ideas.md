@@ -20,11 +20,11 @@ Small tasks suitable for bounded sessions.
 - Added CI coverage for generated documentation freshness.
 - Added `zany generate-docs` to regenerate every managed document in one step.
 - Added `CONTRIBUTING.md` with a compact change checklist.
+- Added `zany-sessions-json` for machine-readable session summaries.
 
 ## Candidate tasks
 
 - Add an option to preview generated-document changes without writing files.
-- Add a machine-readable session summary format.
 
 ## Selection rule
 
