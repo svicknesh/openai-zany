@@ -22,6 +22,7 @@ zany next
 zany list
 zany doctor
 zany sessions
+zany sessions-json
 zany changelog
 zany status-page
 zany commands
@@ -30,6 +31,16 @@ zany freshness
 zany generate-docs
 zany docs-diff
 ```
+
+Machine-readable session summaries support an optional path and result limit:
+
+```bash
+zany sessions-json
+zany sessions-json --limit 5
+zany sessions-json --path docs/session-log.md
+```
+
+The standalone `zany-sessions-json` executable remains available for compatibility.
 
 Run tests locally:
 
@@ -99,6 +110,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany list` shows the current idea backlog.
 - `zany doctor` checks whether the expected scaffold files are present.
 - `zany sessions` summarizes the session log and latest recorded session.
+- `zany sessions-json` prints structured session-log data as JSON.
 - `zany changelog` generates a compact changelog from recent session-log entries.
 - `zany status-page` writes `docs/status.html` from the session log.
 - `zany commands` prints the command reference as Markdown.
