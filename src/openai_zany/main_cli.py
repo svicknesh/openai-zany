@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from collections.abc import Sequence
 
 from . import cli, docs_diff
@@ -38,7 +39,7 @@ def docs_diff_parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     """Route integrated commands, then delegate established commands."""
-    arguments = list(argv) if argv is not None else None
+    arguments = list(argv) if argv is not None else sys.argv[1:]
     if arguments and arguments[0] == DOCS_DIFF_COMMAND.name:
         args = docs_diff_parser().parse_args(arguments[1:])
         return docs_diff.main(["--root", args.root, "--format", args.format])
