@@ -1,0 +1,31 @@
+from openai_zany import main_cli
+
+
+def test_registered_commands_adds_docs_diff_once(monkeypatch):
+    monkeypatch.setattr(main_cli.cli, "COMMANDS", (main_cli.cli.CommandInfo("doctor", "Check."),))
+
+    commands = main_cli.registered_commands()
+
+    assert [command.name for command in commands] == ["doctor", "docs-diff"]
+
+
+def test_main_routes_docs_diff_options(monkeypatch):
+    received = []
+    monkeypatch.setattr(main_cli.docs_diff, "main", lambda argv: received.append(argv) or 1)
+
+    result = main_cli.main(["docs-diff", "--root", "/tmp/repo", "--format", "json"])
+
+    assert result == 1
+    assert received == [["--root", "/tmp/repo", "--format", "json"]]
+
+
+def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
+    received = []
+    monkeypatch.setattr(main_cli.cli, "COMMANDS", (main_cli.cli.CommandInfo("doctor", "Check."),))
+    monkeypatch.setattr(main_cli.cli, "main", lambda argv: received.append(argv) or 0)
+
+    result = main_cli.main(["doctor"])
+
+    assert result == 0
+    assert received == [["doctor"]]
+    assert [command.name for command in main_cli.cli.COMMANDS] == ["doctor", "docs-diff"]
