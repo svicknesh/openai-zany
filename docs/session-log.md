@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+Generated documentation freshness check.
+
+Changes made:
+
+- Added `zany freshness` to compare generated documentation with current renderers.
+- Added missing, stale, and current-state detection for `docs/commands.md` and `docs/status.html`.
+- Added focused regression tests for both generated documents.
+- Refreshed `docs/commands.md` and updated `docs/ideas.md`.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- A mirrored local test run passed: 19 tests passed.
+- The command exits non-zero when generated documents need regeneration, making it suitable for later CI use.
+- Next useful task: add CI coverage for `zany freshness`.
+
+## 2026-07-11
+
 CLI smoke-test documentation.
 
 Changes made:
