@@ -18,10 +18,24 @@ Keep changes small, auditable, and easy to reverse.
 ## Before stopping
 
 - Run `pytest`.
+- Run `zany-docs-diff` before regeneration to review exactly what managed documentation will change.
+- Use `zany-docs-diff --format json` when a machine-readable review artifact is useful.
 - Run `zany generate-docs` after changing generated-document inputs.
 - Run `zany freshness` and confirm it reports `CURRENT`.
-- Review the diff for accidental, secret, or unrelated changes.
+- Review the final diff for accidental, secret, or unrelated changes.
 - Update `docs/session-log.md` with the task, validation, limitations, and next useful step.
+
+## Generated-document sequence
+
+Use this order so generated changes remain inspectable rather than appearing as unexplained file churn:
+
+```bash
+zany-docs-diff
+zany generate-docs
+zany freshness
+```
+
+The first command is read-only and exits with status 1 when it finds pending changes. That status means regeneration is required; it is not an execution failure.
 
 ## Commit quality
 
