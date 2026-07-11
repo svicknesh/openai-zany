@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+Contributor checklist.
+
+Changes made:
+
+- Added `CONTRIBUTING.md` with a compact checklist for bounded changes.
+- Documented pre-edit, implementation, validation, and commit-quality checks.
+- Added the checklist to the README documentation index.
+- Updated `docs/ideas.md` to record completion and retain focused candidate tasks.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- No application behavior changed, so no test change was required.
+- Local test execution was unavailable because this runtime could not resolve GitHub for cloning.
+- Next useful task: add a dry-run option that previews generated-document changes without writing files.
+
+## 2026-07-11
+
 Generated documentation refresh command.
 
 Changes made:
