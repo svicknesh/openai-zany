@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+Generated documentation diff preview.
+
+Changes made:
+
+- Added `zany-docs-diff` to preview generated-document changes as unified diffs.
+- Added missing-file and stale-file handling without writing repository files.
+- Added focused tests for current, stale, missing, and CLI exit states.
+- Added the console entry point in `pyproject.toml`.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- A mirrored focused test run passed: 4 tests passed.
+- Repository cloning remained unavailable because outbound DNS resolution failed.
+- Next useful task: add `zany-docs-diff` to the contributor validation workflow.
+
+## 2026-07-11
+
 Machine-readable session summaries.
 
 Changes made:
