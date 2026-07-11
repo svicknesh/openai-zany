@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 21<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 22<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `--format json` to `zany-docs-diff` for automation-friendly output.
+- Added structured path, status, and unified-diff fields while preserving text output.
+- Added focused regression coverage for stale, missing, text, and JSON states.
+- Work stayed inside `svicknesh/openai-zany`.
+- Repository cloning remained unavailable because outbound DNS resolution failed.
+- Tests were updated but could not be executed against a checkout in this runtime.
 
 ## 2026-07-11
 - Added `zany-docs-diff` to preview generated-document changes as unified diffs.
@@ -36,15 +44,7 @@
 - Added focused tests for parsing, limiting, missing files, and CLI JSON output.
 - Added the console entry point in `pyproject.toml`.
 - Work stayed inside `svicknesh/openai-zany`.
-- A mirrored focused test run passed: 4 tests passed.
-
-## 2026-07-11
-- Added `CONTRIBUTING.md` with a compact checklist for bounded changes.
-- Documented pre-edit, implementation, validation, and commit-quality checks.
-- Added the checklist to the README documentation index.
-- Updated `docs/ideas.md` to record completion and retain focused candidate tasks.
-- Work stayed inside `svicknesh/openai-zany`.
-- No application behavior changed, so no test change was required.</pre>
+- A mirrored focused test run passed: 4 tests passed.</pre>
   </section>
 </body>
 </html>
