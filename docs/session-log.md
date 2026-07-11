@@ -2,6 +2,23 @@
 
 ## 2026-07-11
 
+Generated-document review workflow.
+
+Changes made:
+
+- Added `zany-docs-diff` to the contributor pre-stop checklist.
+- Documented the preview, regenerate, and freshness verification sequence.
+- Clarified that exit status 1 from the preview command means pending changes, not an execution failure.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- This was a documentation-only workflow improvement, so no application test change was required.
+- Validation was limited to reviewing the committed Markdown because no repository checkout was available.
+- Next useful task: expose generated-document diff preview through the main `zany` command.
+
+## 2026-07-11
+
 Machine-readable generated-document diffs.
 
 Changes made:
