@@ -9,6 +9,26 @@ def test_registered_commands_adds_integrated_commands_once(monkeypatch):
     assert [command.name for command in commands] == ["doctor", "docs-diff", "sessions-json"]
 
 
+def test_main_routes_next_to_maintained_backlog(monkeypatch, capsys):
+    monkeypatch.setattr(main_cli.backlog, "next_report", lambda: "Next idea: maintained task")
+    monkeypatch.setattr(main_cli.backlog.DEFAULT_IDEAS_PATH, "is_file", lambda: True)
+
+    result = main_cli.main(["next"])
+
+    assert result == 0
+    assert capsys.readouterr().out.strip() == "Next idea: maintained task"
+
+
+def test_main_routes_list_to_maintained_backlog(monkeypatch, capsys):
+    monkeypatch.setattr(main_cli.backlog, "list_report", lambda: "- maintained task")
+    monkeypatch.setattr(main_cli.backlog.DEFAULT_IDEAS_PATH, "is_file", lambda: True)
+
+    result = main_cli.main(["list"])
+
+    assert result == 0
+    assert capsys.readouterr().out.strip() == "- maintained task"
+
+
 def test_main_routes_docs_diff_options(monkeypatch):
     received = []
     monkeypatch.setattr(main_cli.docs_diff, "main", lambda argv: received.append(argv) or 1)
