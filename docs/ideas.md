@@ -14,12 +14,12 @@ Small tasks suitable for bounded sessions.
 - Added `docs/development.md` to explain the repository structure and local workflow.
 - Added `zany roadmap` to show completed and candidate tasks from `docs/ideas.md`.
 - Added `docs/release-notes-template.md` for consistent, auditable release summaries.
+- Added the release notes template to the `zany doctor` repository health check.
 
 ## Candidate tasks
 
 - Add a CLI smoke-test section to the README.
 - Add a generated development notes check to prevent stale docs.
-- Add the release notes template to the repository health check.
 
 ## Selection rule
 
