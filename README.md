@@ -26,6 +26,7 @@ zany changelog
 zany status-page
 zany commands
 zany roadmap
+zany freshness
 ```
 
 Run tests locally:
@@ -50,9 +51,9 @@ A successful run exits with status 0 and prints the repository health report, a 
 
 ## Continuous integration
 
-GitHub Actions runs the Python test suite on pushes to `main`, pull requests targeting `main`, and manual workflow dispatch.
+GitHub Actions runs the Python test suite and verifies generated-document freshness on pushes to `main`, pull requests targeting `main`, and manual workflow dispatch.
 
-The workflow currently tests Python 3.11 and 3.12.
+The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or `docs/status.html` fails the workflow with guidance to regenerate the affected file.
 
 ## Documentation
 
@@ -74,3 +75,4 @@ The workflow currently tests Python 3.11 and 3.12.
 - `zany status-page` writes `docs/status.html` from the session log.
 - `zany commands` prints the command reference as Markdown.
 - `zany roadmap` shows completed and candidate tasks from `docs/ideas.md`.
+- `zany freshness` checks whether generated documentation matches current renderers.
