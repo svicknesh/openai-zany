@@ -6,6 +6,7 @@ import argparse
 from dataclasses import dataclass
 from html import escape
 from pathlib import Path
+from typing import Callable
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,14 @@ class CommandInfo:
     description: str
 
 
+@dataclass(frozen=True)
+class GeneratedDocument:
+    """A generated repository document and the function that renders it."""
+
+    path: str
+    render: Callable[[], str]
+
+
 IDEAS: tuple[Idea, ...] = (
     Idea("session log helper", "Keep autonomous work auditable."),
     Idea("tiny static status page", "Make the repo browsable without infrastructure."),
@@ -39,6 +48,7 @@ COMMANDS: tuple[CommandInfo, ...] = (
     CommandInfo("status-page", "Write docs/status.html from the session log."),
     CommandInfo("commands", "Print this command reference as Markdown."),
     CommandInfo("roadmap", "Show completed and candidate tasks from docs/ideas.md."),
+    CommandInfo("freshness", "Check whether generated documentation is current."),
 )
 
 EXPECTED_FILES: tuple[str, ...] = (
@@ -58,6 +68,7 @@ EXPECTED_FILES: tuple[str, ...] = (
 
 SESSION_LOG_PATH = Path("docs/session-log.md")
 STATUS_PAGE_PATH = Path("docs/status.html")
+COMMANDS_PATH = Path("docs/commands.md")
 IDEAS_PATH = Path("docs/ideas.md")
 
 
@@ -88,14 +99,12 @@ def markdown_section_bullets(markdown: str, heading: str) -> list[str]:
     """Return top-level bullets below a second-level heading."""
     bullets: list[str] = []
     in_section = False
-
     for line in markdown.splitlines():
         if line.startswith("## "):
             in_section = line.removeprefix("## ").strip() == heading
             continue
         if in_section and line.startswith("- "):
             bullets.append(line.removeprefix("- ").strip())
-
     return bullets
 
 
@@ -104,11 +113,9 @@ def roadmap_report(ideas_path: Path | str = IDEAS_PATH) -> str:
     path = Path(ideas_path)
     if not path.is_file():
         return f"Roadmap: MISSING\nExpected path: {path}"
-
     markdown = path.read_text(encoding="utf-8")
     completed = markdown_section_bullets(markdown, "Completed")
     candidates = markdown_section_bullets(markdown, "Candidate tasks")
-
     lines = ["# Roadmap", "", "## Completed"]
     lines.extend(f"- {item}" for item in completed or ["No completed tasks recorded."])
     lines.extend(["", "## Candidate tasks"])
@@ -125,10 +132,8 @@ def missing_expected_files(root: Path | str = ".") -> list[str]:
 def doctor_report(root: Path | str = ".") -> str:
     """Return a short repository health report."""
     missing = missing_expected_files(root)
-
     if not missing:
         return "Repository health: OK\nAll expected files are present."
-
     missing_lines = "\n".join(f"- {path}" for path in missing)
     return f"Repository health: ATTENTION\nMissing expected files:\n{missing_lines}"
 
@@ -141,15 +146,11 @@ def session_titles(log_text: str) -> list[str]:
 def session_summary(log_path: Path | str = SESSION_LOG_PATH) -> str:
     """Return a short summary of recorded work sessions."""
     path = Path(log_path)
-
     if not path.is_file():
         return f"Session log: MISSING\nExpected path: {path}"
-
     titles = session_titles(path.read_text(encoding="utf-8"))
-
     if not titles:
         return f"Session log: EMPTY\nPath: {path}"
-
     return f"Session log: OK\nTotal sessions: {len(titles)}\nLatest session: {titles[0]}"
 
 
@@ -158,7 +159,6 @@ def session_blocks(log_text: str) -> list[tuple[str, list[str]]]:
     blocks: list[tuple[str, list[str]]] = []
     current_title: str | None = None
     current_lines: list[str] = []
-
     for line in log_text.splitlines():
         if line.startswith("## "):
             if current_title is not None:
@@ -166,13 +166,10 @@ def session_blocks(log_text: str) -> list[tuple[str, list[str]]]:
             current_title = line.removeprefix("## ").strip()
             current_lines = []
             continue
-
         if current_title is not None:
             current_lines.append(line)
-
     if current_title is not None:
         blocks.append((current_title, current_lines))
-
     return blocks
 
 
@@ -184,27 +181,17 @@ def bullet_lines(lines: list[str]) -> list[str]:
 def changelog_report(log_path: Path | str = SESSION_LOG_PATH, limit: int = 5) -> str:
     """Return a compact changelog generated from recent session-log entries."""
     path = Path(log_path)
-
     if not path.is_file():
         return f"Changelog: MISSING\nExpected path: {path}"
-
     blocks = session_blocks(path.read_text(encoding="utf-8"))
-
     if not blocks:
         return f"Changelog: EMPTY\nPath: {path}"
-
     sections: list[str] = ["# Changelog", ""]
     for title, lines in blocks[:limit]:
         sections.append(f"## {title}")
         bullets = bullet_lines(lines)
-
-        if bullets:
-            sections.extend(f"- {bullet}" for bullet in bullets[:6])
-        else:
-            sections.append("- No bullet summary recorded.")
-
+        sections.extend(f"- {bullet}" for bullet in bullets[:6]) if bullets else sections.append("- No bullet summary recorded.")
         sections.append("")
-
     return "\n".join(sections).rstrip()
 
 
@@ -214,7 +201,6 @@ def status_page_html(log_path: Path | str = SESSION_LOG_PATH) -> str:
     changelog = changelog_report(log_path, limit=3)
     summary_html = "<br>".join(escape(line) for line in summary.splitlines())
     changelog_html = escape(changelog)
-
     return f"""<!doctype html>
 <html lang=\"en\">
 <head>
@@ -252,6 +238,35 @@ def write_status_page(output_path: Path | str = STATUS_PAGE_PATH, log_path: Path
     return path
 
 
+def generated_documents(root: Path | str = ".") -> tuple[GeneratedDocument, ...]:
+    """Return generated documents and renderers rooted at the project directory."""
+    project_root = Path(root)
+    return (
+        GeneratedDocument(str(COMMANDS_PATH), command_reference),
+        GeneratedDocument(str(STATUS_PAGE_PATH), lambda: status_page_html(project_root / SESSION_LOG_PATH)),
+    )
+
+
+def stale_generated_documents(root: Path | str = ".") -> list[str]:
+    """Return generated documents that are missing or differ from rendered content."""
+    project_root = Path(root)
+    stale: list[str] = []
+    for document in generated_documents(project_root):
+        path = project_root / document.path
+        if not path.is_file() or path.read_text(encoding="utf-8") != document.render():
+            stale.append(document.path)
+    return stale
+
+
+def freshness_report(root: Path | str = ".") -> str:
+    """Return a report describing generated-document freshness."""
+    stale = stale_generated_documents(root)
+    if not stale:
+        return "Generated documentation: CURRENT\nAll generated documents are up to date."
+    lines = "\n".join(f"- {path}" for path in stale)
+    return f"Generated documentation: STALE\nRegenerate these files:\n{lines}"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="zany", description="Small utilities for the OpenAI Zany workspace.")
     parser.add_argument("command", choices=command_names(), help="Command to run.")
@@ -261,40 +276,34 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-
     if args.command == "next":
         print(next_idea())
         return 0
-
     if args.command == "list":
         print(list_ideas())
         return 0
-
     if args.command == "doctor":
         print(doctor_report())
         return 0 if not missing_expected_files() else 1
-
     if args.command == "sessions":
         print(session_summary())
         return 0 if SESSION_LOG_PATH.is_file() else 1
-
     if args.command == "changelog":
         print(changelog_report())
         return 0 if SESSION_LOG_PATH.is_file() else 1
-
     if args.command == "status-page":
         path = write_status_page()
         print(f"Wrote status page: {path}")
         return 0
-
     if args.command == "commands":
         print(command_reference())
         return 0
-
     if args.command == "roadmap":
         print(roadmap_report())
         return 0 if IDEAS_PATH.is_file() else 1
-
+    if args.command == "freshness":
+        print(freshness_report())
+        return 0 if not stale_generated_documents() else 1
     parser.error(f"unknown command: {args.command}")
     return 2
 
