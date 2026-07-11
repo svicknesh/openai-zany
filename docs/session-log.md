@@ -2,6 +2,25 @@
 
 ## 2026-07-11
 
+Primary CLI integration for generated-document diffs.
+
+Changes made:
+
+- Added `openai_zany.main_cli` as the primary `zany` command router.
+- Exposed the existing diff preview as `zany docs-diff` while preserving `zany-docs-diff`.
+- Forwarded `--root` and `--format` options to the established implementation.
+- Added focused routing, delegation, and command-registration tests.
+- Updated README usage and regenerated the command reference.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- A mirrored focused test run passed: 3 tests passed.
+- Repository cloning remained unavailable because outbound DNS resolution failed.
+- Next useful task: expose machine-readable session summaries through the primary `zany` command.
+
+## 2026-07-11
+
 Generated-document review workflow.
 
 Changes made:
