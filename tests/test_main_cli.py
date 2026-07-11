@@ -1,12 +1,12 @@
 from openai_zany import main_cli
 
 
-def test_registered_commands_adds_docs_diff_once(monkeypatch):
+def test_registered_commands_adds_integrated_commands_once(monkeypatch):
     monkeypatch.setattr(main_cli.cli, "COMMANDS", (main_cli.cli.CommandInfo("doctor", "Check."),))
 
     commands = main_cli.registered_commands()
 
-    assert [command.name for command in commands] == ["doctor", "docs-diff"]
+    assert [command.name for command in commands] == ["doctor", "docs-diff", "sessions-json"]
 
 
 def test_main_routes_docs_diff_options(monkeypatch):
@@ -30,6 +30,26 @@ def test_main_routes_console_arguments(monkeypatch):
     assert received == [["--root", ".", "--format", "json"]]
 
 
+def test_main_routes_sessions_json_options(monkeypatch):
+    received = []
+    monkeypatch.setattr(main_cli.session_json, "main", lambda argv: received.append(argv) or 0)
+
+    result = main_cli.main(["sessions-json", "--path", "/tmp/session-log.md", "--limit", "3"])
+
+    assert result == 0
+    assert received == [["--path", "/tmp/session-log.md", "--limit", "3"]]
+
+
+def test_main_routes_sessions_json_defaults(monkeypatch):
+    received = []
+    monkeypatch.setattr(main_cli.session_json, "main", lambda argv: received.append(argv) or 0)
+
+    result = main_cli.main(["sessions-json"])
+
+    assert result == 0
+    assert received == [["--path", "docs/session-log.md"]]
+
+
 def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
     received = []
     monkeypatch.setattr(main_cli.cli, "COMMANDS", (main_cli.cli.CommandInfo("doctor", "Check."),))
@@ -39,4 +59,4 @@ def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
 
     assert result == 0
     assert received == [["doctor"]]
-    assert [command.name for command in main_cli.cli.COMMANDS] == ["doctor", "docs-diff"]
+    assert [command.name for command in main_cli.cli.COMMANDS] == ["doctor", "docs-diff", "sessions-json"]
