@@ -13,12 +13,13 @@ Small tasks suitable for bounded sessions.
 - Added `docs/autonomous-checklist.md` for future autonomous session quality gates.
 - Added `docs/development.md` to explain the repository structure and local workflow.
 - Added `zany roadmap` to show completed and candidate tasks from `docs/ideas.md`.
+- Added `docs/release-notes-template.md` for consistent, auditable release summaries.
 
 ## Candidate tasks
 
-- Add a lightweight release notes template.
 - Add a CLI smoke-test section to the README.
 - Add a generated development notes check to prevent stale docs.
+- Add the release notes template to the repository health check.
 
 ## Selection rule
 
