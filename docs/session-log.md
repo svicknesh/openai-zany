@@ -2,6 +2,25 @@
 
 ## 2026-07-11
 
+Generated documentation refresh command.
+
+Changes made:
+
+- Added `zany generate-docs` to regenerate every managed document in one step.
+- Added a reusable `write_generated_documents` helper.
+- Added focused regression coverage for generated file creation and freshness.
+- Updated README and roadmap documentation.
+- Regenerated `docs/commands.md` and `docs/status.html`.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- The command closes the loop with `zany freshness`: one command detects drift and the other repairs it.
+- Local execution was unavailable because this runtime could not resolve GitHub for cloning; implementation and tests were reviewed through the repository connector.
+- Next useful task: add an option to preview generated-document changes without writing files.
+
+## 2026-07-11
+
 Generated documentation freshness in CI.
 
 Changes made:
