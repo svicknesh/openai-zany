@@ -2,6 +2,23 @@
 
 ## 2026-07-11
 
+Generated documentation freshness in CI.
+
+Changes made:
+
+- Added `zany freshness` to the GitHub Actions test workflow after `pytest`.
+- Updated the README usage and CI sections to document freshness enforcement.
+- Regenerated `docs/status.html` after recording this session.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- The change reuses existing tested CLI behavior; no application-code test change was required.
+- CI now fails when `docs/commands.md` or `docs/status.html` does not match its renderer.
+- Next useful task: add a single command that regenerates all managed documentation.
+
+## 2026-07-11
+
 Generated documentation freshness check.
 
 Changes made:
