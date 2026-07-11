@@ -49,6 +49,7 @@ COMMANDS: tuple[CommandInfo, ...] = (
     CommandInfo("commands", "Print this command reference as Markdown."),
     CommandInfo("roadmap", "Show completed and candidate tasks from docs/ideas.md."),
     CommandInfo("freshness", "Check whether generated documentation is current."),
+    CommandInfo("generate-docs", "Regenerate all managed documentation files."),
 )
 
 EXPECTED_FILES: tuple[str, ...] = (
@@ -247,6 +248,18 @@ def generated_documents(root: Path | str = ".") -> tuple[GeneratedDocument, ...]
     )
 
 
+def write_generated_documents(root: Path | str = ".") -> list[Path]:
+    """Regenerate all managed documents below root and return their paths."""
+    project_root = Path(root)
+    written: list[Path] = []
+    for document in generated_documents(project_root):
+        path = project_root / document.path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(document.render(), encoding="utf-8")
+        written.append(path)
+    return written
+
+
 def stale_generated_documents(root: Path | str = ".") -> list[str]:
     """Return generated documents that are missing or differ from rendered content."""
     project_root = Path(root)
@@ -304,6 +317,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "freshness":
         print(freshness_report())
         return 0 if not stale_generated_documents() else 1
+    if args.command == "generate-docs":
+        for path in write_generated_documents():
+            print(f"Wrote generated document: {path}")
+        return 0
     parser.error(f"unknown command: {args.command}")
     return 2
 
