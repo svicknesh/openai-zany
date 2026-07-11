@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 25<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 26<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added file-backed backlog helpers that read candidate tasks from `docs/ideas.md`.
+- Routed `zany next` and `zany list` through the maintained backlog instead of obsolete hard-coded ideas.
+- Added focused parsing, missing-file, empty-backlog, and primary CLI routing tests.
+- Refreshed `docs/ideas.md` to record completed work and replace a stale candidate.
+- Work stayed inside `svicknesh/openai-zany`.
+- Repository cloning and local test execution remained unavailable because outbound DNS resolution failed.
 
 ## 2026-07-11
 - Exposed the existing JSON session summary as `zany sessions-json` while preserving `zany-sessions-json`.
@@ -36,15 +44,7 @@
 - Forwarded `--root` and `--format` options to the established implementation.
 - Added focused routing, delegation, and command-registration tests.
 - Updated README usage and regenerated the command reference.
-- Work stayed inside `svicknesh/openai-zany`.
-
-## 2026-07-11
-- Added `zany-docs-diff` to the contributor pre-stop checklist.
-- Documented the preview, regenerate, and freshness verification sequence.
-- Clarified that exit status 1 from the preview command means pending changes, not an execution failure.
-- Work stayed inside `svicknesh/openai-zany`.
-- This was a documentation-only workflow improvement, so no application test change was required.
-- Validation was limited to reviewing the committed Markdown because no repository checkout was available.</pre>
+- Work stayed inside `svicknesh/openai-zany`.</pre>
   </section>
 </body>
 </html>
