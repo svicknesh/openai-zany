@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 16<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 17<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `zany freshness` to the GitHub Actions test workflow after `pytest`.
+- Updated the README usage and CI sections to document freshness enforcement.
+- Regenerated `docs/status.html` after recording this session.
+- Work stayed inside `svicknesh/openai-zany`.
+- The change reuses existing tested CLI behavior; no application-code test change was required.
+- CI now fails when `docs/commands.md` or `docs/status.html` does not match its renderer.
 
 ## 2026-07-11
 - Added `zany freshness` to compare generated documentation with current renderers.
@@ -36,15 +44,7 @@
 - Documented the expected successful output and non-mutating behavior.
 - Updated `docs/ideas.md` to mark the task complete.
 - Work stayed inside `svicknesh/openai-zany`.
-- No application code changed, so no test change was required.
-
-## 2026-07-11
-- Added `docs/release-notes-template.md` to the `zany doctor` expected-file list.
-- Updated the doctor regression test to verify the template is reported when missing.
-- Updated `docs/ideas.md` to mark the task complete.
-- Work stayed inside `svicknesh/openai-zany`.
-- The change is limited to scaffold validation and its focused test.
-- Tests were updated but not executed locally because this connector session has no repository checkout.</pre>
+- No application code changed, so no test change was required.</pre>
   </section>
 </body>
 </html>
