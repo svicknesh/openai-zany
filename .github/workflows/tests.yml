@@ -32,3 +32,6 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+      - name: Check generated documentation freshness
+        run: zany freshness
