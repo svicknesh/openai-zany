@@ -21,10 +21,14 @@ Small tasks suitable for bounded sessions.
 - Added `zany generate-docs` to regenerate every managed document in one step.
 - Added `CONTRIBUTING.md` with a compact change checklist.
 - Added `zany-sessions-json` for machine-readable session summaries.
+- Added `zany-docs-diff` to preview generated-document changes without writing files.
+- Routed `zany next` and `zany list` to the maintained candidate backlog in this file.
 
 ## Candidate tasks
 
-- Add an option to preview generated-document changes without writing files.
+- Add `sessions-json` and `docs-diff` to the read-only CLI smoke test.
+- Remove the obsolete hard-coded idea records from `openai_zany.cli` after compatibility review.
+- Add a command that validates the structure of `docs/session-log.md`.
 
 ## Selection rule
 
