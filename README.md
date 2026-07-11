@@ -34,6 +34,20 @@ Run tests locally:
 pytest
 ```
 
+## CLI smoke test
+
+After installation, run this small read-only check from the repository root:
+
+```bash
+set -eu
+zany doctor
+zany commands | grep -F '| `zany doctor` |'
+zany roadmap | grep -F '## Candidate tasks'
+zany sessions
+```
+
+A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, and the session summary. The smoke test does not regenerate or modify repository files.
+
 ## Continuous integration
 
 GitHub Actions runs the Python test suite on pushes to `main`, pull requests targeting `main`, and manual workflow dispatch.
