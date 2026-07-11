@@ -2,6 +2,23 @@
 
 ## 2026-07-11
 
+Release notes health check.
+
+Changes made:
+
+- Added `docs/release-notes-template.md` to the `zany doctor` expected-file list.
+- Updated the doctor regression test to verify the template is reported when missing.
+- Updated `docs/ideas.md` to mark the task complete.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- The change is limited to scaffold validation and its focused test.
+- Tests were updated but not executed locally because this connector session has no repository checkout.
+- Next useful task: add a CLI smoke-test section to the README.
+
+## 2026-07-11
+
 Release notes template.
 
 Changes made:
