@@ -65,6 +65,12 @@ def session_log_check_parser() -> argparse.ArgumentParser:
         description=SESSION_LOG_CHECK_COMMAND.description,
     )
     parser.add_argument("--path", default=str(session_check.DEFAULT_LOG_PATH), help="Session-log path.")
+    parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format. JSON is useful for automation.",
+    )
     return parser
 
 
@@ -88,7 +94,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return session_json.main(forwarded)
     if arguments and arguments[0] == SESSION_LOG_CHECK_COMMAND.name:
         args = session_log_check_parser().parse_args(arguments[1:])
-        return session_check.main(["--path", args.path])
+        return session_check.main(["--path", args.path, "--format", args.format])
 
     cli.COMMANDS = registered_commands()
     return cli.main(arguments)
