@@ -17,11 +17,13 @@ Small tasks suitable for bounded sessions.
 - Added the release notes template to the `zany doctor` repository health check.
 - Added a read-only CLI smoke-test procedure to the README.
 - Added `zany freshness` to detect missing or stale generated documentation.
+- Added CI coverage for generated documentation freshness.
+- Added `zany generate-docs` to regenerate every managed document in one step.
 
 ## Candidate tasks
 
 - Add a compact contributor checklist for code changes.
-- Add CI coverage for the generated documentation freshness check.
+- Add an option to preview generated-document changes without writing files.
 
 ## Selection rule
 
