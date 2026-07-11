@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 17<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 18<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `zany generate-docs` to regenerate every managed document in one step.
+- Added a reusable `write_generated_documents` helper.
+- Added focused regression coverage for generated file creation and freshness.
+- Updated README and roadmap documentation.
+- Regenerated `docs/commands.md` and `docs/status.html`.
+- Work stayed inside `svicknesh/openai-zany`.
 
 ## 2026-07-11
 - Added `zany freshness` to the GitHub Actions test workflow after `pytest`.
@@ -36,15 +44,7 @@
 - Added focused regression tests for both generated documents.
 - Refreshed `docs/commands.md` and updated `docs/ideas.md`.
 - Work stayed inside `svicknesh/openai-zany`.
-- A mirrored local test run passed: 19 tests passed.
-
-## 2026-07-11
-- Added a read-only CLI smoke-test procedure to the README.
-- Covered repository health, command reference, roadmap, and session-summary commands.
-- Documented the expected successful output and non-mutating behavior.
-- Updated `docs/ideas.md` to mark the task complete.
-- Work stayed inside `svicknesh/openai-zany`.
-- No application code changed, so no test change was required.</pre>
+- A mirrored local test run passed: 19 tests passed.</pre>
   </section>
 </body>
 </html>
