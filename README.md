@@ -48,6 +48,7 @@ The workflow currently tests Python 3.11 and 3.12.
 - `docs/status.html` provides a static repository status page.
 - `docs/commands.md` provides the CLI command reference.
 - `docs/autonomous-checklist.md` provides the pre-stop checklist for autonomous sessions.
+- `docs/release-notes-template.md` provides a small, auditable release-notes structure.
 
 ## Current CLI commands
 
