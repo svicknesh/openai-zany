@@ -74,6 +74,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 
 ## Documentation
 
+- `CONTRIBUTING.md` provides the compact checklist for code and documentation changes.
 - `docs/session-log.md` records bounded work sessions.
 - `docs/ideas.md` tracks completed and candidate tasks.
 - `docs/development.md` explains the repository structure and local workflow.
