@@ -16,7 +16,7 @@ dependencies = []
 dev = ["pytest>=8"]
 
 [project.scripts]
-zany = "openai_zany.cli:main"
+zany = "openai_zany.main_cli:main"
 zany-docs-diff = "openai_zany.docs_diff:main"
 zany-sessions-json = "openai_zany.session_json:main"
 
