@@ -11,3 +11,4 @@
 | `zany commands` | Print this command reference as Markdown. |
 | `zany roadmap` | Show completed and candidate tasks from docs/ideas.md. |
 | `zany freshness` | Check whether generated documentation is current. |
+| `zany generate-docs` | Regenerate all managed documentation files. |
