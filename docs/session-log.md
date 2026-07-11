@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+Machine-readable session summaries.
+
+Changes made:
+
+- Added `zany-sessions-json` for JSON session-log output.
+- Added structured parsing with missing, empty, limited, and populated states.
+- Added focused tests for parsing, limiting, missing files, and CLI JSON output.
+- Added the console entry point in `pyproject.toml`.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- A mirrored focused test run passed: 4 tests passed.
+- Repository cloning remained unavailable because outbound DNS resolution failed, so validation used a local mirror of the new module and tests.
+- Next useful task: add a dry-run option that previews generated-document changes without writing files.
+
+## 2026-07-11
+
 Contributor checklist.
 
 Changes made:
