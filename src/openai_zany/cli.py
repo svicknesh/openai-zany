@@ -53,6 +53,7 @@ EXPECTED_FILES: tuple[str, ...] = (
     "docs/development.md",
     "docs/status.html",
     "docs/commands.md",
+    "docs/release-notes-template.md",
 )
 
 SESSION_LOG_PATH = Path("docs/session-log.md")
