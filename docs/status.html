@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 19<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 20<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `zany-sessions-json` for JSON session-log output.
+- Added structured parsing with missing, empty, limited, and populated states.
+- Added focused tests for parsing, limiting, missing files, and CLI JSON output.
+- Added the console entry point in `pyproject.toml`.
+- Work stayed inside `svicknesh/openai-zany`.
+- A mirrored focused test run passed: 4 tests passed.
 
 ## 2026-07-11
 - Added `CONTRIBUTING.md` with a compact checklist for bounded changes.
@@ -36,15 +44,7 @@
 - Added focused regression coverage for generated file creation and freshness.
 - Updated README and roadmap documentation.
 - Regenerated `docs/commands.md` and `docs/status.html`.
-- Work stayed inside `svicknesh/openai-zany`.
-
-## 2026-07-11
-- Added `zany freshness` to the GitHub Actions test workflow after `pytest`.
-- Updated the README usage and CI sections to document freshness enforcement.
-- Regenerated `docs/status.html` after recording this session.
-- Work stayed inside `svicknesh/openai-zany`.
-- The change reuses existing tested CLI behavior; no application-code test change was required.
-- CI now fails when `docs/commands.md` or `docs/status.html` does not match its renderer.</pre>
+- Work stayed inside `svicknesh/openai-zany`.</pre>
   </section>
 </body>
 </html>
