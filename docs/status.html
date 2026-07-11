@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 22<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 23<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `zany-docs-diff` to the contributor pre-stop checklist.
+- Documented the preview, regenerate, and freshness verification sequence.
+- Clarified that exit status 1 from the preview command means pending changes, not an execution failure.
+- Work stayed inside `svicknesh/openai-zany`.
+- This was a documentation-only workflow improvement, so no application test change was required.
+- Validation was limited to reviewing the committed Markdown because no repository checkout was available.
 
 ## 2026-07-11
 - Added `--format json` to `zany-docs-diff` for automation-friendly output.
@@ -34,14 +42,6 @@
 - Added `zany-docs-diff` to preview generated-document changes as unified diffs.
 - Added missing-file and stale-file handling without writing repository files.
 - Added focused tests for current, stale, missing, and CLI exit states.
-- Added the console entry point in `pyproject.toml`.
-- Work stayed inside `svicknesh/openai-zany`.
-- A mirrored focused test run passed: 4 tests passed.
-
-## 2026-07-11
-- Added `zany-sessions-json` for JSON session-log output.
-- Added structured parsing with missing, empty, limited, and populated states.
-- Added focused tests for parsing, limiting, missing files, and CLI JSON output.
 - Added the console entry point in `pyproject.toml`.
 - Work stayed inside `svicknesh/openai-zany`.
 - A mirrored focused test run passed: 4 tests passed.</pre>
