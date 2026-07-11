@@ -23,12 +23,13 @@ Small tasks suitable for bounded sessions.
 - Added `zany-sessions-json` for machine-readable session summaries.
 - Added `zany-docs-diff` to preview generated-document changes without writing files.
 - Routed `zany next` and `zany list` to the maintained candidate backlog in this file.
+- Added `zany session-log-check` to validate session-log structure without modifying it.
 
 ## Candidate tasks
 
-- Add `sessions-json` and `docs-diff` to the read-only CLI smoke test.
+- Add `sessions-json`, `docs-diff`, and `session-log-check` to the read-only CLI smoke test.
 - Remove the obsolete hard-coded idea records from `openai_zany.cli` after compatibility review.
-- Add a command that validates the structure of `docs/session-log.md`.
+- Add JSON output to `session-log-check` for CI and editor integrations.
 
 ## Selection rule
 
