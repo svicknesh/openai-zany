@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+CLI smoke-test documentation.
+
+Changes made:
+
+- Added a read-only CLI smoke-test procedure to the README.
+- Covered repository health, command reference, roadmap, and session-summary commands.
+- Documented the expected successful output and non-mutating behavior.
+- Updated `docs/ideas.md` to mark the task complete.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- No application code changed, so no test change was required.
+- The documented smoke test should be run after an editable development install.
+- Next useful task: add a generated documentation freshness check for `docs/commands.md` and `docs/status.html`.
+
+## 2026-07-11
+
 Release notes health check.
 
 Changes made:
