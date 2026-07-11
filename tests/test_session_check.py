@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from openai_zany import main_cli, session_check
@@ -38,11 +39,45 @@ def test_session_log_check_report_handles_missing_file(tmp_path):
     assert "Session log structure: MISSING" in report
 
 
+def test_session_log_check_result_is_stable_for_valid_file(tmp_path):
+    path = tmp_path / "session-log.md"
+    path.write_text(VALID_LOG, encoding="utf-8")
+    assert session_check.session_log_check_result(path) == {
+        "path": str(path),
+        "status": "valid",
+        "valid": True,
+        "errors": [],
+    }
+
+
 def test_session_log_check_main_returns_nonzero_for_invalid_file(tmp_path, capsys):
     path = tmp_path / "session-log.md"
     path.write_text("# Wrong title\n", encoding="utf-8")
     assert session_check.main(["--path", str(path)]) == 1
     assert "Session log structure: INVALID" in capsys.readouterr().out
+
+
+def test_session_log_check_main_prints_json_for_invalid_file(tmp_path, capsys):
+    path = tmp_path / "session-log.md"
+    path.write_text("# Wrong title\n", encoding="utf-8")
+    assert session_check.main(["--path", str(path), "--format", "json"]) == 1
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["path"] == str(path)
+    assert payload["status"] == "invalid"
+    assert payload["valid"] is False
+    assert payload["errors"]
+
+
+def test_session_log_check_main_prints_json_for_missing_file(tmp_path, capsys):
+    path = tmp_path / "missing.md"
+    assert session_check.main(["--path", str(path), "--format", "json"]) == 1
+    payload = json.loads(capsys.readouterr().out)
+    assert payload == {
+        "path": str(path),
+        "status": "missing",
+        "valid": False,
+        "errors": [f"expected session log at {path}"],
+    }
 
 
 def test_primary_cli_routes_session_log_check(monkeypatch):
@@ -53,8 +88,10 @@ def test_primary_cli_routes_session_log_check(monkeypatch):
         return 0
 
     monkeypatch.setattr(session_check, "main", fake_main)
-    assert main_cli.main(["session-log-check", "--path", "custom.md"]) == 0
-    assert captured == [["--path", "custom.md"]]
+    assert main_cli.main(
+        ["session-log-check", "--path", "custom.md", "--format", "json"]
+    ) == 0
+    assert captured == [["--path", "custom.md", "--format", "json"]]
 
 
 def test_registered_commands_include_session_log_check():
