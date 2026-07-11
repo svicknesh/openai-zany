@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 23<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 24<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `openai_zany.main_cli` as the primary `zany` command router.
+- Exposed the existing diff preview as `zany docs-diff` while preserving `zany-docs-diff`.
+- Forwarded `--root` and `--format` options to the established implementation.
+- Added focused routing, delegation, and command-registration tests.
+- Updated README usage and regenerated the command reference.
+- Work stayed inside `svicknesh/openai-zany`.
 
 ## 2026-07-11
 - Added `zany-docs-diff` to the contributor pre-stop checklist.
@@ -36,15 +44,7 @@
 - Added focused regression coverage for stale, missing, text, and JSON states.
 - Work stayed inside `svicknesh/openai-zany`.
 - Repository cloning remained unavailable because outbound DNS resolution failed.
-- Tests were updated but could not be executed against a checkout in this runtime.
-
-## 2026-07-11
-- Added `zany-docs-diff` to preview generated-document changes as unified diffs.
-- Added missing-file and stale-file handling without writing repository files.
-- Added focused tests for current, stale, missing, and CLI exit states.
-- Added the console entry point in `pyproject.toml`.
-- Work stayed inside `svicknesh/openai-zany`.
-- A mirrored focused test run passed: 4 tests passed.</pre>
+- Tests were updated but could not be executed against a checkout in this runtime.</pre>
   </section>
 </body>
 </html>
