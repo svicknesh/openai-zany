@@ -13,3 +13,4 @@
 | `zany freshness` | Check whether generated documentation is current. |
 | `zany generate-docs` | Regenerate all managed documentation files. |
 | `zany docs-diff` | Preview generated-document changes without writing files. |
+| `zany sessions-json` | Print structured session-log data as JSON. |
