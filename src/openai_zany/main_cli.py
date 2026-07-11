@@ -6,19 +6,25 @@ import argparse
 import sys
 from collections.abc import Sequence
 
-from . import cli, docs_diff
+from . import cli, docs_diff, session_json
 
 DOCS_DIFF_COMMAND = cli.CommandInfo(
     "docs-diff",
     "Preview generated-document changes without writing files.",
 )
+SESSIONS_JSON_COMMAND = cli.CommandInfo(
+    "sessions-json",
+    "Print structured session-log data as JSON.",
+)
+INTEGRATED_COMMANDS = (DOCS_DIFF_COMMAND, SESSIONS_JSON_COMMAND)
 
 
 def registered_commands() -> tuple[cli.CommandInfo, ...]:
     """Return core commands plus commands routed by this module."""
-    if any(command.name == DOCS_DIFF_COMMAND.name for command in cli.COMMANDS):
-        return cli.COMMANDS
-    return (*cli.COMMANDS, DOCS_DIFF_COMMAND)
+    registered = list(cli.COMMANDS)
+    known_names = {command.name for command in registered}
+    registered.extend(command for command in INTEGRATED_COMMANDS if command.name not in known_names)
+    return tuple(registered)
 
 
 def docs_diff_parser() -> argparse.ArgumentParser:
@@ -37,12 +43,29 @@ def docs_diff_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def sessions_json_parser() -> argparse.ArgumentParser:
+    """Return the parser for the integrated sessions-json command."""
+    parser = argparse.ArgumentParser(
+        prog="zany sessions-json",
+        description=SESSIONS_JSON_COMMAND.description,
+    )
+    parser.add_argument("--path", default=str(session_json.DEFAULT_LOG_PATH), help="Session-log path.")
+    parser.add_argument("--limit", type=int, default=None, help="Maximum recent sessions to include.")
+    return parser
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     """Route integrated commands, then delegate established commands."""
     arguments = list(argv) if argv is not None else sys.argv[1:]
     if arguments and arguments[0] == DOCS_DIFF_COMMAND.name:
         args = docs_diff_parser().parse_args(arguments[1:])
         return docs_diff.main(["--root", args.root, "--format", args.format])
+    if arguments and arguments[0] == SESSIONS_JSON_COMMAND.name:
+        args = sessions_json_parser().parse_args(arguments[1:])
+        forwarded = ["--path", args.path]
+        if args.limit is not None:
+            forwarded.extend(["--limit", str(args.limit)])
+        return session_json.main(forwarded)
 
     cli.COMMANDS = registered_commands()
     return cli.main(arguments)
