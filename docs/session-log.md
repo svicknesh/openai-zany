@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+Maintained backlog source for bounded sessions.
+
+Changes made:
+
+- Added file-backed backlog helpers that read candidate tasks from `docs/ideas.md`.
+- Routed `zany next` and `zany list` through the maintained backlog instead of obsolete hard-coded ideas.
+- Added focused parsing, missing-file, empty-backlog, and primary CLI routing tests.
+- Refreshed `docs/ideas.md` to record completed work and replace a stale candidate.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- Repository cloning and local test execution remained unavailable because outbound DNS resolution failed.
+- Implementation and tests were reviewed through the GitHub connector.
+- Next useful task: add `sessions-json` and `docs-diff` to the read-only CLI smoke test.
+
+## 2026-07-11
+
 Primary CLI integration for machine-readable session summaries.
 
 Changes made:
