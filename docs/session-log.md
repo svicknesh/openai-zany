@@ -2,6 +2,24 @@
 
 ## 2026-07-11
 
+Release notes template.
+
+Changes made:
+
+- Added `docs/release-notes-template.md`.
+- Added summary, change, validation, compatibility, limitation, and source-session sections.
+- Updated the README documentation index.
+- Updated `docs/ideas.md` to mark the task complete.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- No application code changed, so no test change was required.
+- The repository could not be cloned in this runtime because outbound network resolution was unavailable.
+- Next useful task: add the release notes template to the repository health check.
+
+## 2026-07-11
+
 Roadmap command.
 
 Changes made:
