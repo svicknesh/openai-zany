@@ -13,6 +13,7 @@ from openai_zany.cli import (
     session_titles,
     stale_generated_documents,
     status_page_html,
+    write_generated_documents,
     write_status_page,
 )
 
@@ -33,6 +34,7 @@ def test_command_names_include_documented_commands():
     assert "status-page" in names
     assert "commands" in names
     assert "freshness" in names
+    assert "generate-docs" in names
 
 
 def test_command_reference_is_markdown_table():
@@ -42,6 +44,7 @@ def test_command_reference_is_markdown_table():
     assert "`zany doctor`" in reference
     assert "`zany commands`" in reference
     assert "`zany freshness`" in reference
+    assert "`zany generate-docs`" in reference
 
 
 def test_missing_expected_files_detects_empty_directory(tmp_path):
@@ -162,3 +165,17 @@ def test_freshness_report_detects_changed_generated_doc(tmp_path):
     (docs / "commands.md").write_text("stale\n", encoding="utf-8")
     (docs / "status.html").write_text(status_page_html(log_path), encoding="utf-8")
     assert stale_generated_documents(tmp_path) == ["docs/commands.md"]
+
+
+def test_write_generated_documents_creates_all_managed_files(tmp_path):
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    log_path = docs / "session-log.md"
+    log_path.write_text("# Session Log\n\n## First\n\n- Added one\n", encoding="utf-8")
+
+    written = write_generated_documents(tmp_path)
+
+    assert written == [docs / "commands.md", docs / "status.html"]
+    assert (docs / "commands.md").read_text(encoding="utf-8") == command_reference()
+    assert (docs / "status.html").read_text(encoding="utf-8") == status_page_html(log_path)
+    assert stale_generated_documents(tmp_path) == []
