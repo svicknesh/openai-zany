@@ -19,6 +19,17 @@ def test_main_routes_docs_diff_options(monkeypatch):
     assert received == [["--root", "/tmp/repo", "--format", "json"]]
 
 
+def test_main_routes_console_arguments(monkeypatch):
+    received = []
+    monkeypatch.setattr(main_cli.sys, "argv", ["zany", "docs-diff", "--format", "json"])
+    monkeypatch.setattr(main_cli.docs_diff, "main", lambda argv: received.append(argv) or 1)
+
+    result = main_cli.main()
+
+    assert result == 1
+    assert received == [["--root", ".", "--format", "json"]]
+
+
 def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
     received = []
     monkeypatch.setattr(main_cli.cli, "COMMANDS", (main_cli.cli.CommandInfo("doctor", "Check."),))
