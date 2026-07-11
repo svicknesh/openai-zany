@@ -16,11 +16,19 @@
   <p>Generated from the repository session log.</p>
   <section class="card">
     <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 18<br>Latest session: 2026-07-11</p>
+    <p>Session log: OK<br>Total sessions: 19<br>Latest session: 2026-07-11</p>
   </section>
   <section class="card">
     <h2>Recent Changelog</h2>
     <pre># Changelog
+
+## 2026-07-11
+- Added `CONTRIBUTING.md` with a compact checklist for bounded changes.
+- Documented pre-edit, implementation, validation, and commit-quality checks.
+- Added the checklist to the README documentation index.
+- Updated `docs/ideas.md` to record completion and retain focused candidate tasks.
+- Work stayed inside `svicknesh/openai-zany`.
+- No application behavior changed, so no test change was required.
 
 ## 2026-07-11
 - Added `zany generate-docs` to regenerate every managed document in one step.
@@ -36,15 +44,7 @@
 - Regenerated `docs/status.html` after recording this session.
 - Work stayed inside `svicknesh/openai-zany`.
 - The change reuses existing tested CLI behavior; no application-code test change was required.
-- CI now fails when `docs/commands.md` or `docs/status.html` does not match its renderer.
-
-## 2026-07-11
-- Added `zany freshness` to compare generated documentation with current renderers.
-- Added missing, stale, and current-state detection for `docs/commands.md` and `docs/status.html`.
-- Added focused regression tests for both generated documents.
-- Refreshed `docs/commands.md` and updated `docs/ideas.md`.
-- Work stayed inside `svicknesh/openai-zany`.
-- A mirrored local test run passed: 19 tests passed.</pre>
+- CI now fails when `docs/commands.md` or `docs/status.html` does not match its renderer.</pre>
   </section>
 </body>
 </html>
