@@ -28,6 +28,7 @@ zany commands
 zany roadmap
 zany freshness
 zany generate-docs
+zany docs-diff
 ```
 
 Run tests locally:
@@ -51,6 +52,15 @@ zany sessions
 A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, and the session summary. The smoke test does not regenerate or modify repository files.
 
 ## Generated documentation
+
+Preview pending generated-document changes without writing files:
+
+```bash
+zany docs-diff
+zany docs-diff --format json
+```
+
+Exit status 1 means pending changes were found and displayed.
 
 Check whether managed documentation matches the current renderers:
 
@@ -95,3 +105,4 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany roadmap` shows completed and candidate tasks from `docs/ideas.md`.
 - `zany freshness` checks whether generated documentation matches current renderers.
 - `zany generate-docs` regenerates all managed documentation files.
+- `zany docs-diff` previews generated-document changes without writing files.
