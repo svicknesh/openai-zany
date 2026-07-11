@@ -2,6 +2,25 @@
 
 ## 2026-07-11
 
+Primary CLI integration for machine-readable session summaries.
+
+Changes made:
+
+- Exposed the existing JSON session summary as `zany sessions-json` while preserving `zany-sessions-json`.
+- Forwarded `--path` and `--limit` options to the established implementation.
+- Generalized integrated command registration so routed commands are added once.
+- Added focused routing, default-option, delegation, and command-registration tests.
+- Updated README usage and regenerated the command reference.
+
+Notes:
+
+- Work stayed inside `svicknesh/openai-zany`.
+- Repository cloning and local test execution remained unavailable because outbound DNS resolution failed.
+- The implementation and focused tests were reviewed through the GitHub connector.
+- Next useful task: add `sessions-json` to the read-only CLI smoke test.
+
+## 2026-07-11
+
 Primary CLI integration for generated-document diffs.
 
 Changes made:
