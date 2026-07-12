@@ -14,6 +14,10 @@ def section_bullets(markdown: str, heading: str) -> list[str]:
     in_section = False
     in_nested_section = False
     for line in markdown.splitlines():
+        if line.startswith("# "):
+            in_section = False
+            in_nested_section = False
+            continue
         if line.startswith("## "):
             in_section = line.removeprefix("## ").strip() == heading
             in_nested_section = False
