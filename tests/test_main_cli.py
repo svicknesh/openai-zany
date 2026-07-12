@@ -79,18 +79,44 @@ def test_main_routes_sessions_json_defaults(monkeypatch):
     assert received == [["--path", "docs/sessions"]]
 
 
-def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
+def test_main_delegates_existing_commands_without_mutating_registry(monkeypatch):
     received = []
-    monkeypatch.setattr(main_cli.cli, "COMMANDS", (main_cli.cli.CommandInfo("doctor", "Check."),))
-    monkeypatch.setattr(main_cli.cli, "main", lambda argv: received.append(argv) or 0)
+    original_commands = (main_cli.cli.CommandInfo("doctor", "Check."),)
+    monkeypatch.setattr(main_cli.cli, "COMMANDS", original_commands)
+
+    def delegated_main(argv):
+        received.append(argv)
+        assert [command.name for command in main_cli.cli.COMMANDS] == [
+            "doctor",
+            "docs-diff",
+            "sessions-json",
+            "session-log-check",
+        ]
+        return 0
+
+    monkeypatch.setattr(main_cli.cli, "main", delegated_main)
 
     result = main_cli.main(["doctor"])
 
     assert result == 0
     assert received == [["doctor"]]
-    assert [command.name for command in main_cli.cli.COMMANDS] == [
-        "doctor",
-        "docs-diff",
-        "sessions-json",
-        "session-log-check",
-    ]
+    assert main_cli.cli.COMMANDS == original_commands
+
+
+def test_main_restores_command_registry_when_delegation_fails(monkeypatch):
+    original_commands = (main_cli.cli.CommandInfo("doctor", "Check."),)
+    monkeypatch.setattr(main_cli.cli, "COMMANDS", original_commands)
+
+    def delegated_main(_argv):
+        raise RuntimeError("delegation failed")
+
+    monkeypatch.setattr(main_cli.cli, "main", delegated_main)
+
+    try:
+        main_cli.main(["doctor"])
+    except RuntimeError as error:
+        assert str(error) == "delegation failed"
+    else:
+        raise AssertionError("expected delegated failure")
+
+    assert main_cli.cli.COMMANDS == original_commands
