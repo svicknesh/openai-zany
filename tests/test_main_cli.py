@@ -6,7 +6,12 @@ def test_registered_commands_adds_integrated_commands_once(monkeypatch):
 
     commands = main_cli.registered_commands()
 
-    assert [command.name for command in commands] == ["doctor", "docs-diff", "sessions-json"]
+    assert [command.name for command in commands] == [
+        "doctor",
+        "docs-diff",
+        "sessions-json",
+        "session-log-check",
+    ]
 
 
 def test_main_routes_next_to_maintained_backlog(monkeypatch, capsys, tmp_path):
@@ -83,4 +88,9 @@ def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
 
     assert result == 0
     assert received == [["doctor"]]
-    assert [command.name for command in main_cli.cli.COMMANDS] == ["doctor", "docs-diff", "sessions-json"]
+    assert [command.name for command in main_cli.cli.COMMANDS] == [
+        "doctor",
+        "docs-diff",
+        "sessions-json",
+        "session-log-check",
+    ]
