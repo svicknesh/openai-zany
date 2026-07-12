@@ -18,7 +18,8 @@ Use this checklist before ending any assistant-driven work session in this repos
 
 ## Before stopping
 
-- Update `docs/session-log.md` with what changed.
+- Create one new immutable session record under `docs/sessions/` using `docs/sessions/README.md`.
+- Do not replace `docs/session-log.md` during connector-driven autonomous work.
 - Note any test or CI result that is known.
 - Record the next smallest useful task.
 - Stop after the coherent task is complete.
