@@ -14,6 +14,14 @@ def test_section_bullets_ignores_nested_subsection_bullets():
     assert section_bullets(markdown, "Candidate tasks") == ["Executable task"]
 
 
+def test_section_bullets_ignores_deeper_subsection_bullets():
+    markdown = (
+        "# Ideas\n\n## Candidate tasks\n\n- Executable task\n\n"
+        "#### Implementation notes\n\n- Explanation only\n\n## Selection rule\n\n- Not a task\n"
+    )
+    assert section_bullets(markdown, "Candidate tasks") == ["Executable task"]
+
+
 def test_candidate_tasks_reads_maintained_ideas_file(tmp_path):
     ideas_path = tmp_path / "ideas.md"
     ideas_path.write_text("# Ideas\n\n## Candidate tasks\n\n- Build useful thing\n", encoding="utf-8")
