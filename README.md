@@ -101,6 +101,8 @@ zany generate-docs
 
 The refresh command currently writes `docs/commands.md` and `docs/status.html`.
 
+`docs/status.html` is intentionally stable. It points readers to live CLI reports instead of embedding the latest session count or changelog, so adding a new append-only record does not immediately make generated documentation stale.
+
 ## Continuous integration
 
 GitHub Actions runs the Python test suite and verifies generated-document freshness on pushes to `main`, pull requests targeting `main`, and manual workflow dispatch.
@@ -114,7 +116,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `docs/session-log.md` is the surviving legacy aggregate session archive.
 - `docs/ideas.md` tracks completed and candidate tasks.
 - `docs/development.md` explains the repository structure and local workflow.
-- `docs/status.html` provides a static repository status page.
+- `docs/status.html` provides a stable static repository status page with live-report commands.
 - `docs/commands.md` provides the CLI command reference.
 - `docs/autonomous-checklist.md` provides the pre-stop checklist for autonomous sessions.
 - `docs/release-notes-template.md` provides a small, auditable release-notes structure.
@@ -127,7 +129,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany sessions` summarizes append-only session records and the latest recorded session.
 - `zany sessions-json` prints structured append-only session-record data by default, with legacy-file support through `--path`.
 - `zany changelog` generates a compact changelog from recent append-only session records.
-- `zany status-page` writes `docs/status.html` from the session log.
+- `zany status-page` regenerates the stable `docs/status.html` page.
 - `zany commands` prints the command reference as Markdown.
 - `zany roadmap` shows completed and candidate tasks from `docs/ideas.md`.
 - `zany freshness` checks whether generated documentation matches current renderers.
