@@ -76,7 +76,7 @@ def test_main_routes_sessions_json_defaults(monkeypatch):
     result = main_cli.main(["sessions-json"])
 
     assert result == 0
-    assert received == [["--path", "docs/session-log.md"]]
+    assert received == [["--path", "docs/sessions"]]
 
 
 def test_main_delegates_existing_commands_with_augmented_reference(monkeypatch):
