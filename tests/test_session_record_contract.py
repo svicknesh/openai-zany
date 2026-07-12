@@ -9,6 +9,11 @@ def test_session_record_instructions_preserve_append_only_contract():
 
     assert "# Session Records" in instructions
     assert "YYYY-MM-DD-HHMMSS-short-slug.md" in instructions
+    assert "# Session: Short summary" in instructions
+    assert "Date: YYYY-MM-DDTHH:MM:SSZ" in instructions
+    assert "## Changes made" in instructions
+    assert "## Validation" in instructions
+    assert "## Notes" in instructions
     assert "After creation, a session file should not normally be edited." in instructions
     assert "`docs/session-log.md` is a legacy archive." in instructions
     assert "Do not replace it during autonomous connector-driven runs." in instructions
