@@ -32,9 +32,10 @@ zany generate-docs
 zany docs-diff
 ```
 
-Machine-readable session summaries default to the append-only session-record directory, while still supporting the legacy log file and an optional result limit:
+Human-readable and machine-readable session summaries now default to the append-only session-record directory. The JSON command also supports an optional result limit and explicit legacy-file access:
 
 ```bash
+zany sessions
 zany sessions-json
 zany sessions-json --limit 5
 zany sessions-json --path docs/session-log.md
@@ -71,7 +72,7 @@ A successful run exits with status 0 and prints the repository health report, a 
 
 New autonomous work is recorded as one immutable Markdown file per session under `docs/sessions/`. This append-only model prevents connector-driven runs from truncating shared history.
 
-`docs/session-log.md` remains a legacy archive used by commands that have not yet migrated. `zany sessions-json` reads `docs/sessions/` by default and can still read the legacy file through `--path docs/session-log.md`. Autonomous connector runs must not replace the legacy archive. See `docs/sessions/README.md` for naming and structure rules.
+`docs/session-log.md` remains a legacy archive used by commands that have not yet migrated. `zany sessions` and `zany sessions-json` read `docs/sessions/` by default; `zany sessions-json` can still read the legacy file through `--path docs/session-log.md`. Autonomous connector runs must not replace the legacy archive. See `docs/sessions/README.md` for naming and structure rules.
 
 ## Generated documentation
 
@@ -121,7 +122,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany next` shows the next small candidate task.
 - `zany list` shows the current idea backlog.
 - `zany doctor` checks whether the expected scaffold files are present.
-- `zany sessions` summarizes the session log and latest recorded session.
+- `zany sessions` summarizes append-only session records and the latest recorded session.
 - `zany sessions-json` prints structured append-only session-record data by default, with legacy-file support through `--path`.
 - `zany changelog` generates a compact changelog from recent session-log entries.
 - `zany status-page` writes `docs/status.html` from the session log.
