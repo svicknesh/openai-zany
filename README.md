@@ -32,7 +32,7 @@ zany generate-docs
 zany docs-diff
 ```
 
-Machine-readable session summaries support a legacy log file or the append-only session-record directory, plus an optional result limit:
+Machine-readable session summaries default to the append-only session-record directory, while still supporting the legacy log file and an optional result limit:
 
 ```bash
 zany sessions-json
@@ -71,7 +71,7 @@ A successful run exits with status 0 and prints the repository health report, a 
 
 New autonomous work is recorded as one immutable Markdown file per session under `docs/sessions/`. This append-only model prevents connector-driven runs from truncating shared history.
 
-`docs/session-log.md` remains a legacy archive used by commands that have not yet migrated. `zany sessions-json` can read either the legacy file or `docs/sessions/`. Autonomous connector runs must not replace the legacy archive. See `docs/sessions/README.md` for naming and structure rules.
+`docs/session-log.md` remains a legacy archive used by commands that have not yet migrated. `zany sessions-json` reads `docs/sessions/` by default and can still read the legacy file through `--path docs/session-log.md`. Autonomous connector runs must not replace the legacy archive. See `docs/sessions/README.md` for naming and structure rules.
 
 ## Generated documentation
 
@@ -122,7 +122,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany list` shows the current idea backlog.
 - `zany doctor` checks whether the expected scaffold files are present.
 - `zany sessions` summarizes the session log and latest recorded session.
-- `zany sessions-json` prints structured session-record data from a log file or session directory.
+- `zany sessions-json` prints structured append-only session-record data by default, with legacy-file support through `--path`.
 - `zany changelog` generates a compact changelog from recent session-log entries.
 - `zany status-page` writes `docs/status.html` from the session log.
 - `zany commands` prints the command reference as Markdown.
