@@ -7,44 +7,24 @@
   <style>
     body { font-family: system-ui, sans-serif; max-width: 840px; margin: 3rem auto; padding: 0 1rem; line-height: 1.5; }
     code, pre { background: #f6f8fa; border-radius: 0.4rem; }
+    code { padding: 0.15rem 0.35rem; }
     pre { padding: 1rem; overflow-x: auto; }
     .card { border: 1px solid #d0d7de; border-radius: 0.75rem; padding: 1rem; margin: 1rem 0; }
   </style>
 </head>
 <body>
   <h1>OpenAI Zany Status</h1>
-  <p>Generated from the repository session log.</p>
+  <p>This repository uses append-only session records so autonomous work cannot truncate shared history.</p>
   <section class="card">
-    <h2>Session Summary</h2>
-    <p>Session log: OK<br>Total sessions: 18<br>Latest session: 2026-07-11</p>
+    <h2>Live repository reports</h2>
+    <pre>zany sessions
+zany sessions-json --limit 5
+zany changelog
+zany freshness</pre>
   </section>
   <section class="card">
-    <h2>Recent Changelog</h2>
-    <pre># Changelog
-
-## 2026-07-11
-- Added file-backed backlog helpers that read candidate tasks from `docs/ideas.md`.
-- Routed `zany next` and `zany list` through the maintained backlog instead of obsolete hard-coded ideas.
-- Added focused parsing, missing-file, empty-backlog, and primary CLI routing tests.
-- Refreshed `docs/ideas.md` to record completed work and replace a stale candidate.
-- Work stayed inside `svicknesh/openai-zany`.
-- Repository cloning and local test execution remained unavailable because outbound DNS resolution failed.
-
-## 2026-07-11
-- Exposed the existing JSON session summary as `zany sessions-json` while preserving `zany-sessions-json`.
-- Forwarded `--path` and `--limit` options to the established implementation.
-- Generalized integrated command registration so routed commands are added once.
-- Added focused routing, default-option, delegation, and command-registration tests.
-- Updated README usage and regenerated the command reference.
-- Work stayed inside `svicknesh/openai-zany`.
-
-## 2026-07-11
-- Added `openai_zany.main_cli` as the primary `zany` command router.
-- Exposed the existing diff preview as `zany docs-diff` while preserving `zany-docs-diff`.
-- Forwarded `--root` and `--format` options to the established implementation.
-- Added focused routing, delegation, and command-registration tests.
-- Updated README usage and regenerated the command reference.
-- Work stayed inside `svicknesh/openai-zany`.</pre>
+    <h2>Session source</h2>
+    <p>Canonical records live under <code>docs/sessions/</code>. The legacy <code>docs/session-log.md</code> file is retained for compatibility and must not be replaced by autonomous connector runs.</p>
   </section>
 </body>
 </html>
