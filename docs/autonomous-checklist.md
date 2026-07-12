@@ -2,6 +2,13 @@
 
 Use this checklist before ending any assistant-driven work session in this repository.
 
+## Preflight
+
+- Confirm the latest known CI state is not failing.
+- Confirm managed documentation is not known to be stale.
+- If either state cannot support a safe bounded change, make no repository changes.
+- Do not manufacture work merely to produce a session record.
+
 ## Scope
 
 - Work stayed inside `svicknesh/openai-zany`.
