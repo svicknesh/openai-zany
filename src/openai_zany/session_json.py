@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 DEFAULT_LOG_PATH = Path("docs/sessions")
+SESSION_FILENAME = re.compile(r"^\d{4}-\d{2}-\d{2}-\d{6}-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
 
 
 def parse_sessions(log_text: str) -> list[dict[str, object]]:
@@ -42,7 +44,7 @@ def _directory_sessions(path: Path) -> list[dict[str, object]]:
     """Return valid session records from a directory, newest first."""
     sessions: list[dict[str, object]] = []
     for record_path in sorted(path.glob("*.md"), reverse=True):
-        if record_path.name.casefold() == "readme.md":
+        if not SESSION_FILENAME.fullmatch(record_path.name):
             continue
         session = parse_session_record(record_path.read_text(encoding="utf-8"))
         if session is not None:
