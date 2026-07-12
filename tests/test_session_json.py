@@ -55,6 +55,7 @@ def test_session_summary_data_ignores_invalid_directory_records(tmp_path):
     sessions = tmp_path / "sessions"
     sessions.mkdir()
     (sessions / "invalid.md").write_text("# Not a session\n", encoding="utf-8")
+    (sessions / "notes.md").write_text("# Session: Looks valid but is not canonical\n", encoding="utf-8")
     data = session_summary_data(sessions)
     assert data["status"] == "empty"
     assert data["sessions"] == []
