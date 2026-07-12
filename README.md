@@ -62,6 +62,12 @@ zany sessions
 
 A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, and the session summary. The smoke test does not regenerate or modify repository files.
 
+## Session records
+
+New autonomous work is recorded as one immutable Markdown file per session under `docs/sessions/`. This append-only model prevents connector-driven runs from truncating shared history.
+
+`docs/session-log.md` remains a legacy archive used by the current summary and status commands. Autonomous connector runs must not replace it. See `docs/sessions/README.md` for naming and structure rules.
+
 ## Generated documentation
 
 Preview pending generated-document changes without writing files:
@@ -96,7 +102,8 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 ## Documentation
 
 - `CONTRIBUTING.md` provides the compact checklist for code and documentation changes.
-- `docs/session-log.md` records bounded work sessions.
+- `docs/sessions/` contains canonical append-only autonomous-session records.
+- `docs/session-log.md` is the surviving legacy aggregate session archive.
 - `docs/ideas.md` tracks completed and candidate tasks.
 - `docs/development.md` explains the repository structure and local workflow.
 - `docs/status.html` provides a static repository status page.
