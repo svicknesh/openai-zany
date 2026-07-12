@@ -14,7 +14,7 @@ DOCS_DIFF_COMMAND = cli.CommandInfo(
 )
 SESSIONS_JSON_COMMAND = cli.CommandInfo(
     "sessions-json",
-    "Print structured session-log data as JSON.",
+    "Print structured session-record data as JSON.",
 )
 SESSION_LOG_CHECK_COMMAND = cli.CommandInfo(
     "session-log-check",
@@ -53,7 +53,11 @@ def sessions_json_parser() -> argparse.ArgumentParser:
         prog="zany sessions-json",
         description=SESSIONS_JSON_COMMAND.description,
     )
-    parser.add_argument("--path", default=str(session_json.DEFAULT_LOG_PATH), help="Session-log path.")
+    parser.add_argument(
+        "--path",
+        default=str(session_json.DEFAULT_LOG_PATH),
+        help="Session-log file or append-only session-record directory.",
+    )
     parser.add_argument("--limit", type=int, default=None, help="Maximum recent sessions to include.")
     return parser
 
