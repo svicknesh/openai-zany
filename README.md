@@ -32,13 +32,16 @@ zany generate-docs
 zany docs-diff
 ```
 
-Machine-readable session summaries support an optional path and result limit:
+Machine-readable session summaries support a legacy log file or the append-only session-record directory, plus an optional result limit:
 
 ```bash
 zany sessions-json
 zany sessions-json --limit 5
 zany sessions-json --path docs/session-log.md
+zany sessions-json --path docs/sessions --limit 5
 ```
+
+Directory results are ordered by sortable session filename, newest first. Files without a `# Session:` heading are ignored.
 
 The standalone `zany-sessions-json` executable remains available for compatibility.
 
@@ -58,17 +61,17 @@ zany doctor
 zany commands | grep -F '| `zany doctor` |'
 zany roadmap | grep -F '## Candidate tasks'
 zany sessions
-zany sessions-json --limit 1 | grep -F '"sessions"'
+zany sessions-json --path docs/sessions --limit 1 | grep -F '"sessions"'
 zany docs-diff
 ```
 
-A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, the human-readable session summary, and a machine-readable session result. It also confirms that generated documentation has no pending differences. The smoke test does not regenerate or modify repository files.
+A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, the human-readable session summary, and a machine-readable append-only session result. It also confirms that generated documentation has no pending differences. The smoke test does not regenerate or modify repository files.
 
 ## Session records
 
 New autonomous work is recorded as one immutable Markdown file per session under `docs/sessions/`. This append-only model prevents connector-driven runs from truncating shared history.
 
-`docs/session-log.md` remains a legacy archive used by the current summary and status commands. Autonomous connector runs must not replace it. See `docs/sessions/README.md` for naming and structure rules.
+`docs/session-log.md` remains a legacy archive used by commands that have not yet migrated. `zany sessions-json` can read either the legacy file or `docs/sessions/`. Autonomous connector runs must not replace the legacy archive. See `docs/sessions/README.md` for naming and structure rules.
 
 ## Generated documentation
 
@@ -119,7 +122,7 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany list` shows the current idea backlog.
 - `zany doctor` checks whether the expected scaffold files are present.
 - `zany sessions` summarizes the session log and latest recorded session.
-- `zany sessions-json` prints structured session-log data as JSON.
+- `zany sessions-json` prints structured session-record data from a log file or session directory.
 - `zany changelog` generates a compact changelog from recent session-log entries.
 - `zany status-page` writes `docs/status.html` from the session log.
 - `zany commands` prints the command reference as Markdown.
