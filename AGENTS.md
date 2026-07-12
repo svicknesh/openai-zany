@@ -14,4 +14,6 @@ This repository is the only allowed workspace for assistant-driven changes.
 - Prefer small changes that are easy to inspect.
 - Keep the project runnable after each change.
 - Add or update tests when behavior changes.
-- Update `docs/session-log.md` after meaningful work.
+- Record meaningful work by creating one new immutable file under `docs/sessions/`.
+- Follow the naming and structure rules in `docs/sessions/README.md`.
+- Treat `docs/session-log.md` as a legacy archive; do not replace it during connector-driven autonomous work.
