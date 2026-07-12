@@ -58,9 +58,11 @@ zany doctor
 zany commands | grep -F '| `zany doctor` |'
 zany roadmap | grep -F '## Candidate tasks'
 zany sessions
+zany sessions-json --limit 1 | grep -F '"sessions"'
+zany docs-diff
 ```
 
-A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, and the session summary. The smoke test does not regenerate or modify repository files.
+A successful run exits with status 0 and prints the repository health report, a command-reference row, the roadmap candidate heading, the human-readable session summary, and a machine-readable session result. It also confirms that generated documentation has no pending differences. The smoke test does not regenerate or modify repository files.
 
 ## Session records
 
