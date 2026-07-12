@@ -1,4 +1,5 @@
 from openai_zany.cli import (
+    append_only_session_titles,
     bullet_lines,
     changelog_report,
     command_names,
@@ -76,6 +77,21 @@ def test_session_titles_extracts_second_level_headings():
     assert session_titles(text) == ["2026-07-09", "2026-07-08"]
 
 
+def test_append_only_session_titles_reads_newest_first(tmp_path):
+    sessions = tmp_path / "sessions"
+    sessions.mkdir()
+    (sessions / "README.md").write_text("# Session Records\n", encoding="utf-8")
+    (sessions / "2026-07-11-120000-first.md").write_text(
+        "# Session: First\n\n## Changes made\n\n- Older\n",
+        encoding="utf-8",
+    )
+    (sessions / "2026-07-12-120000-second.md").write_text(
+        "# Session: Second\n\n## Changes made\n\n- Newer\n",
+        encoding="utf-8",
+    )
+    assert append_only_session_titles(sessions) == ["Second", "First"]
+
+
 def test_session_summary_reports_missing_log(tmp_path):
     report = session_summary(tmp_path / "missing.md")
     assert "Session log: MISSING" in report
@@ -88,6 +104,19 @@ def test_session_summary_reports_latest_session(tmp_path):
     assert "Session log: OK" in report
     assert "Total sessions: 2" in report
     assert "Latest session: 2026-07-09" in report
+
+
+def test_session_summary_reads_append_only_directory(tmp_path):
+    sessions = tmp_path / "sessions"
+    sessions.mkdir()
+    (sessions / "2026-07-12-120000-second.md").write_text(
+        "# Session: Second\n\n## Changes made\n\n- Newer\n",
+        encoding="utf-8",
+    )
+    report = session_summary(sessions)
+    assert "Session log: OK" in report
+    assert "Total sessions: 1" in report
+    assert "Latest session: Second" in report
 
 
 def test_session_blocks_groups_headings_and_body_lines():
