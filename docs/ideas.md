@@ -25,10 +25,12 @@ Small tasks suitable for bounded sessions.
 - Routed `zany next` and `zany list` to the maintained candidate backlog in this file.
 - Added `zany session-log-check` to validate session-log structure without modifying it.
 - Added JSON output to `zany session-log-check` for CI and editor integrations.
+- Added `sessions-json` and `docs-diff` to the read-only CLI smoke test.
+- Documented `session-log-check` and why it is not yet in the passing smoke test or CI.
 
 ## Candidate tasks
 
-- Add `sessions-json`, `docs-diff`, and `session-log-check` to the read-only CLI smoke test.
+- Repair or migrate the incomplete legacy session-log tail, then add `session-log-check` to the read-only CLI smoke test.
 - Remove the obsolete hard-coded idea records from `openai_zany.cli` after compatibility review.
 - Add `session-log-check` to CI after the historical log satisfies the validator.
 
