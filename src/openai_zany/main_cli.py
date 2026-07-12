@@ -6,7 +6,7 @@ import argparse
 import sys
 from collections.abc import Sequence
 
-from . import backlog, cli, docs_diff, session_check, session_json, session_reports
+from . import backlog, cli, docs_diff, generated_docs, session_check, session_json, session_reports
 
 DOCS_DIFF_COMMAND = cli.CommandInfo(
     "docs-diff",
@@ -90,6 +90,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     if arguments and arguments[0] == "changelog":
         print(session_reports.changelog_report())
         return 0 if session_reports.DEFAULT_SESSIONS_PATH.is_dir() else 1
+    if arguments and arguments[0] == "status-page":
+        path = generated_docs.write_generated_documents()[1]
+        print(f"Wrote status page: {path}")
+        return 0
+    if arguments and arguments[0] == "freshness":
+        print(generated_docs.freshness_report())
+        return 0 if not generated_docs.stale_generated_documents() else 1
+    if arguments and arguments[0] == "generate-docs":
+        for path in generated_docs.write_generated_documents():
+            print(f"Wrote generated document: {path}")
+        return 0
     if arguments and arguments[0] == DOCS_DIFF_COMMAND.name:
         args = docs_diff_parser().parse_args(arguments[1:])
         return docs_diff.main(["--root", args.root, "--format", args.format])
