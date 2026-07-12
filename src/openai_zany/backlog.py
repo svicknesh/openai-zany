@@ -18,7 +18,7 @@ def section_bullets(markdown: str, heading: str) -> list[str]:
             in_section = line.removeprefix("## ").strip() == heading
             in_nested_section = False
             continue
-        if in_section and line.startswith("### "):
+        if in_section and line.startswith("###") and line.lstrip("#").startswith(" "):
             in_nested_section = True
             continue
         if in_section and not in_nested_section and line.startswith("- "):
