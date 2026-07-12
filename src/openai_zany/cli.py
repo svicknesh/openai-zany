@@ -68,6 +68,7 @@ EXPECTED_FILES: tuple[str, ...] = (
 )
 
 SESSION_LOG_PATH = Path("docs/session-log.md")
+SESSIONS_PATH = Path("docs/sessions")
 STATUS_PAGE_PATH = Path("docs/status.html")
 COMMANDS_PATH = Path("docs/commands.md")
 IDEAS_PATH = Path("docs/ideas.md")
@@ -144,12 +145,29 @@ def session_titles(log_text: str) -> list[str]:
     return [line.removeprefix("## ").strip() for line in log_text.splitlines() if line.startswith("## ")]
 
 
-def session_summary(log_path: Path | str = SESSION_LOG_PATH) -> str:
-    """Return a short summary of recorded work sessions."""
+def append_only_session_titles(path: Path) -> list[str]:
+    """Return append-only session titles ordered newest first."""
+    titles: list[str] = []
+    for record_path in sorted(path.glob("*.md"), reverse=True):
+        if record_path.name.casefold() == "readme.md":
+            continue
+        for line in record_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("# Session: "):
+                titles.append(line.removeprefix("# Session: ").strip())
+                break
+    return titles
+
+
+def session_summary(log_path: Path | str = SESSIONS_PATH) -> str:
+    """Return a short summary of a session-record directory or legacy log."""
     path = Path(log_path)
-    if not path.is_file():
+    if not path.exists():
         return f"Session log: MISSING\nExpected path: {path}"
-    titles = session_titles(path.read_text(encoding="utf-8"))
+    titles = (
+        append_only_session_titles(path)
+        if path.is_dir()
+        else session_titles(path.read_text(encoding="utf-8"))
+    )
     if not titles:
         return f"Session log: EMPTY\nPath: {path}"
     return f"Session log: OK\nTotal sessions: {len(titles)}\nLatest session: {titles[0]}"
@@ -300,7 +318,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if not missing_expected_files() else 1
     if args.command == "sessions":
         print(session_summary())
-        return 0 if SESSION_LOG_PATH.is_file() else 1
+        return 0 if SESSIONS_PATH.is_dir() else 1
     if args.command == "changelog":
         print(changelog_report())
         return 0 if SESSION_LOG_PATH.is_file() else 1
