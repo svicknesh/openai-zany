@@ -7,31 +7,32 @@ import json
 from difflib import unified_diff
 from pathlib import Path
 
-from .cli import generated_documents
+from .generated_docs import generated_documents
 
 
 def generated_document_diffs(root: Path | str = ".") -> list[dict[str, str]]:
     """Return structured diffs for generated documents that are missing or stale."""
     project_root = Path(root)
     diffs: list[dict[str, str]] = []
-    for document in generated_documents(project_root):
+    for document in generated_documents():
         path = project_root / document.path
         exists = path.is_file()
         current = path.read_text(encoding="utf-8") if exists else ""
         expected = document.render()
         if current == expected:
             continue
-        fromfile = document.path if exists else "/dev/null"
+        document_path = str(document.path)
+        fromfile = document_path if exists else "/dev/null"
         lines = unified_diff(
             current.splitlines(),
             expected.splitlines(),
             fromfile=fromfile,
-            tofile=document.path,
+            tofile=document_path,
             lineterm="",
         )
         diffs.append(
             {
-                "path": document.path,
+                "path": document_path,
                 "status": "stale" if exists else "missing",
                 "diff": "\n".join(lines),
             }
