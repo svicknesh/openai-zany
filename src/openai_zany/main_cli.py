@@ -6,7 +6,7 @@ import argparse
 import sys
 from collections.abc import Sequence
 
-from . import backlog, cli, docs_diff, session_check, session_json
+from . import backlog, cli, docs_diff, session_check, session_json, session_reports
 
 DOCS_DIFF_COMMAND = cli.CommandInfo(
     "docs-diff",
@@ -87,6 +87,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if arguments and arguments[0] == "list":
         print(backlog.list_report())
         return 0 if backlog.DEFAULT_IDEAS_PATH.is_file() else 1
+    if arguments and arguments[0] == "changelog":
+        print(session_reports.changelog_report())
+        return 0 if session_reports.DEFAULT_SESSIONS_PATH.is_dir() else 1
     if arguments and arguments[0] == DOCS_DIFF_COMMAND.name:
         args = docs_diff_parser().parse_args(arguments[1:])
         return docs_diff.main(["--root", args.root, "--format", args.format])
