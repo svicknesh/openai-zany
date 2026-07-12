@@ -1,9 +1,24 @@
 from openai_zany.generated_docs import (
+    command_reference,
+    documented_commands,
     freshness_report,
     stale_generated_documents,
     status_page_html,
     write_generated_documents,
 )
+
+
+def test_command_reference_includes_integrated_commands_once():
+    names = [command.name for command in documented_commands()]
+
+    assert names.count("docs-diff") == 1
+    assert names.count("sessions-json") == 1
+    assert names.count("session-log-check") == 1
+
+    reference = command_reference()
+    assert "| `zany docs-diff` |" in reference
+    assert "| `zany sessions-json` |" in reference
+    assert "| `zany session-log-check` |" in reference
 
 
 def test_status_page_is_stable_and_points_to_live_reports():
