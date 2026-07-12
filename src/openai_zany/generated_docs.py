@@ -6,10 +6,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from .cli import command_reference
+from . import cli
 
 COMMANDS_PATH = Path("docs/commands.md")
 STATUS_PAGE_PATH = Path("docs/status.html")
+
+INTEGRATED_COMMANDS: tuple[cli.CommandInfo, ...] = (
+    cli.CommandInfo("docs-diff", "Preview generated-document changes without writing files."),
+    cli.CommandInfo("sessions-json", "Print structured session-record data as JSON."),
+    cli.CommandInfo("session-log-check", "Validate the session log structure without modifying it."),
+)
 
 
 @dataclass(frozen=True)
@@ -18,6 +24,21 @@ class GeneratedDocument:
 
     path: Path
     render: Callable[[], str]
+
+
+def documented_commands() -> tuple[cli.CommandInfo, ...]:
+    """Return core and integrated commands exactly once."""
+    commands = list(cli.COMMANDS)
+    known_names = {command.name for command in commands}
+    commands.extend(command for command in INTEGRATED_COMMANDS if command.name not in known_names)
+    return tuple(commands)
+
+
+def command_reference() -> str:
+    """Return the complete Markdown command reference."""
+    rows = ["# Commands", "", "| Command | Description |", "| --- | --- |"]
+    rows.extend(f"| `zany {command.name}` | {command.description} |" for command in documented_commands())
+    return "\n".join(rows)
 
 
 def status_page_html() -> str:
