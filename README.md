@@ -30,6 +30,7 @@ zany roadmap
 zany freshness
 zany generate-docs
 zany docs-diff
+zany session-log-check
 ```
 
 Human-readable summaries, machine-readable summaries, and changelogs now default to the append-only session-record directory. The JSON command also supports an optional result limit and explicit legacy-file access:
@@ -46,6 +47,8 @@ zany changelog
 Directory results are ordered by sortable session filename, newest first. Files without a `# Session:` heading are ignored.
 
 The standalone `zany-sessions-json` executable remains available for compatibility.
+
+`zany session-log-check` validates the structure of the legacy aggregate log without modifying it. Use `--format json` for machine-readable diagnostics. The current legacy archive contains an incomplete historical tail, so this check is intentionally not part of the passing smoke test or CI yet.
 
 Run tests locally:
 
@@ -135,3 +138,4 @@ The workflow currently tests Python 3.11 and 3.12. A stale `docs/commands.md` or
 - `zany freshness` checks whether generated documentation matches current renderers.
 - `zany generate-docs` regenerates all managed documentation files.
 - `zany docs-diff` previews generated-document changes without writing files.
+- `zany session-log-check` validates the legacy aggregate session log without modifying it.
