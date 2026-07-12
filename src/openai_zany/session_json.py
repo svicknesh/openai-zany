@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-DEFAULT_LOG_PATH = Path("docs/session-log.md")
+DEFAULT_LOG_PATH = Path("docs/sessions")
 
 
 def parse_sessions(log_text: str) -> list[dict[str, object]]:
