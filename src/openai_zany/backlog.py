@@ -9,14 +9,19 @@ CANDIDATE_HEADING = "Candidate tasks"
 
 
 def section_bullets(markdown: str, heading: str) -> list[str]:
-    """Return top-level bullets below a second-level Markdown heading."""
+    """Return top-level bullets directly below a second-level Markdown heading."""
     bullets: list[str] = []
     in_section = False
+    in_nested_section = False
     for line in markdown.splitlines():
         if line.startswith("## "):
             in_section = line.removeprefix("## ").strip() == heading
+            in_nested_section = False
             continue
-        if in_section and line.startswith("- "):
+        if in_section and line.startswith("### "):
+            in_nested_section = True
+            continue
+        if in_section and not in_nested_section and line.startswith("- "):
             bullets.append(line.removeprefix("- ").strip())
     return bullets
 
