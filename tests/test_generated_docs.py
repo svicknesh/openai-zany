@@ -1,3 +1,4 @@
+from openai_zany import generated_docs, main_cli
 from openai_zany.generated_docs import (
     command_reference,
     documented_commands,
@@ -19,6 +20,10 @@ def test_command_reference_includes_integrated_commands_once():
     assert "| `zany docs-diff` |" in reference
     assert "| `zany sessions-json` |" in reference
     assert "| `zany session-log-check` |" in reference
+
+
+def test_integrated_command_metadata_matches_cli_router():
+    assert generated_docs.INTEGRATED_COMMANDS == main_cli.INTEGRATED_COMMANDS
 
 
 def test_status_page_is_stable_and_points_to_live_reports():
