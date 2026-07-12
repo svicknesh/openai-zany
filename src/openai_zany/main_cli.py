@@ -114,8 +114,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         args = session_log_check_parser().parse_args(arguments[1:])
         return session_check.main(["--path", args.path, "--format", args.format])
 
+    original_commands = cli.COMMANDS
     cli.COMMANDS = registered_commands()
-    return cli.main(arguments)
+    try:
+        return cli.main(arguments)
+    finally:
+        cli.COMMANDS = original_commands
 
 
 if __name__ == "__main__":
