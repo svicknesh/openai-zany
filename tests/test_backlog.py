@@ -6,6 +6,11 @@ def test_section_bullets_reads_only_requested_section():
     assert section_bullets(markdown, "Candidate tasks") == ["First", "Second"]
 
 
+def test_section_bullets_supports_standard_unordered_markers():
+    markdown = "# Ideas\n\n## Candidate tasks\n\n- Dash\n* Asterisk\n+ Plus\n"
+    assert section_bullets(markdown, "Candidate tasks") == ["Dash", "Asterisk", "Plus"]
+
+
 def test_section_bullets_ignores_nested_subsection_bullets():
     markdown = (
         "# Ideas\n\n## Candidate tasks\n\n- Executable task\n\n"
