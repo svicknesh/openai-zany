@@ -82,9 +82,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     """Route integrated commands, then delegate established commands."""
     arguments = list(argv) if argv is not None else sys.argv[1:]
     if arguments and arguments[0] == "next":
+        argparse.ArgumentParser(prog="zany next").parse_args(arguments[1:])
         print(backlog.next_report())
         return 0 if backlog.DEFAULT_IDEAS_PATH.is_file() else 1
     if arguments and arguments[0] == "list":
+        argparse.ArgumentParser(prog="zany list").parse_args(arguments[1:])
         print(backlog.list_report())
         return 0 if backlog.DEFAULT_IDEAS_PATH.is_file() else 1
     if arguments and arguments[0] == "changelog":
