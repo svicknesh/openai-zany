@@ -105,6 +105,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(generated_docs.freshness_report())
         return 0 if not generated_docs.stale_generated_documents() else 1
     if arguments and arguments[0] == "generate-docs":
+        argparse.ArgumentParser(prog="zany generate-docs").parse_args(arguments[1:])
         for path in generated_docs.write_generated_documents():
             print(f"Wrote generated document: {path}")
         return 0
