@@ -91,6 +91,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(session_reports.changelog_report())
         return 0 if session_reports.DEFAULT_SESSIONS_PATH.is_dir() else 1
     if arguments and arguments[0] == "status-page":
+        argparse.ArgumentParser(prog="zany status-page").parse_args(arguments[1:])
         path = generated_docs.STATUS_PAGE_PATH
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(generated_docs.status_page_html(), encoding="utf-8")
