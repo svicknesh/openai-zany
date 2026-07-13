@@ -13,6 +13,14 @@ This repository is a bounded playground for small assistant-built utilities. Kee
 - `docs/status.html` is a stable generated status page that points readers to live CLI reports.
 - `docs/autonomous-checklist.md` provides the pre-stop checklist for autonomous sessions.
 
+## CLI compatibility boundary
+
+- The installed `zany` command enters through `openai_zany.main_cli:main`, as declared in `pyproject.toml`.
+- `main_cli` owns routing for the maintained backlog-backed `next` and `list` commands before delegating established commands to `openai_zany.cli`.
+- The legacy `Idea`, `IDEAS`, `next_idea()`, and `list_ideas()` objects in `openai_zany.cli` are internal leftovers rather than part of the installed CLI contract.
+- Removing those leftovers should preserve the `next` and `list` command metadata in `cli.COMMANDS` because the primary parser and generated command reference still use that shared registry.
+- Direct imports of the legacy helpers are not covered by the documented public interface; removal should nevertheless include a focused test that the installed router continues to serve backlog-backed `next` and `list` output.
+
 ## Local workflow
 
 Install the package with developer dependencies:
