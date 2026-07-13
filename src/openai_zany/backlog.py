@@ -9,7 +9,7 @@ CANDIDATE_HEADING = "Candidate tasks"
 
 
 def section_bullets(markdown: str, heading: str) -> list[str]:
-    """Return top-level bullets directly below a second-level Markdown heading."""
+    """Return non-empty top-level bullets below a second-level Markdown heading."""
     bullets: list[str] = []
     in_section = False
     in_nested_section = False
@@ -26,7 +26,9 @@ def section_bullets(markdown: str, heading: str) -> list[str]:
             in_nested_section = True
             continue
         if in_section and not in_nested_section and line.startswith("- "):
-            bullets.append(line.removeprefix("- ").strip())
+            bullet = line.removeprefix("- ").strip()
+            if bullet:
+                bullets.append(bullet)
     return bullets
 
 
