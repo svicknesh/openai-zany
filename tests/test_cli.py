@@ -6,9 +6,7 @@ from openai_zany.cli import (
     command_reference,
     doctor_report,
     freshness_report,
-    list_ideas,
     missing_expected_files,
-    next_idea,
     session_blocks,
     session_summary,
     session_titles,
@@ -17,16 +15,6 @@ from openai_zany.cli import (
     write_generated_documents,
     write_status_page,
 )
-
-
-def test_next_idea_has_text():
-    assert "session log helper" in next_idea()
-
-
-def test_list_ideas_has_entries():
-    text = list_ideas()
-    assert "session log helper" in text
-    assert "repo health check" in text
 
 
 def test_command_names_include_documented_commands():
