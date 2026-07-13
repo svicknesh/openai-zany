@@ -90,6 +90,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(backlog.list_report())
         return 0 if backlog.DEFAULT_IDEAS_PATH.is_file() else 1
     if arguments and arguments[0] == "changelog":
+        argparse.ArgumentParser(prog="zany changelog").parse_args(arguments[1:])
         print(session_reports.changelog_report())
         return 0 if session_reports.DEFAULT_SESSIONS_PATH.is_dir() else 1
     if arguments and arguments[0] == "status-page":
