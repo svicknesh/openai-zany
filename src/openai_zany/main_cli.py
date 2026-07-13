@@ -58,7 +58,12 @@ def sessions_json_parser() -> argparse.ArgumentParser:
         default=str(session_json.DEFAULT_LOG_PATH),
         help="Session-log file or append-only session-record directory.",
     )
-    parser.add_argument("--limit", type=int, default=None, help="Maximum recent sessions to include.")
+    parser.add_argument(
+        "--limit",
+        type=session_json.non_negative_int,
+        default=None,
+        help="Maximum recent sessions to include.",
+    )
     return parser
 
 
