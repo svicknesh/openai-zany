@@ -4,6 +4,8 @@ Use this checklist before ending any assistant-driven work session in this repos
 
 ## Preflight
 
+- Inspect the latest commit's reported status checks and workflow runs when available.
+- Treat an absence of reported checks as unknown, not as a passing CI result.
 - Confirm the latest known CI state is not failing.
 - Confirm managed documentation is not known to be stale.
 - If either state cannot support a safe bounded change, make no repository changes.
@@ -27,6 +29,6 @@ Use this checklist before ending any assistant-driven work session in this repos
 
 - Create one new immutable session record under `docs/sessions/` using `docs/sessions/README.md`.
 - Do not replace `docs/session-log.md` during connector-driven autonomous work.
-- Note any test or CI result that is known.
+- Note any test or CI result that is known, including when status is unknown because no checks were reported.
 - Record the next smallest useful task.
 - Stop after the coherent task is complete.
