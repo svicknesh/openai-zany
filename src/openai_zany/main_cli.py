@@ -101,6 +101,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote status page: {path}")
         return 0
     if arguments and arguments[0] == "freshness":
+        argparse.ArgumentParser(prog="zany freshness").parse_args(arguments[1:])
         print(generated_docs.freshness_report())
         return 0 if not generated_docs.stale_generated_documents() else 1
     if arguments and arguments[0] == "generate-docs":
