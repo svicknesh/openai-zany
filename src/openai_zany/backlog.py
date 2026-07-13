@@ -6,6 +6,7 @@ from pathlib import Path
 
 DEFAULT_IDEAS_PATH = Path("docs/ideas.md")
 CANDIDATE_HEADING = "Candidate tasks"
+BULLET_MARKERS = ("- ", "* ", "+ ")
 
 
 def section_bullets(markdown: str, heading: str) -> list[str]:
@@ -25,10 +26,12 @@ def section_bullets(markdown: str, heading: str) -> list[str]:
         if in_section and line.startswith("###") and line.lstrip("#").startswith(" "):
             in_nested_section = True
             continue
-        if in_section and not in_nested_section and line.startswith("- "):
-            bullet = line.removeprefix("- ").strip()
-            if bullet:
-                bullets.append(bullet)
+        if in_section and not in_nested_section:
+            marker = next((candidate for candidate in BULLET_MARKERS if line.startswith(candidate)), None)
+            if marker is not None:
+                bullet = line.removeprefix(marker).strip()
+                if bullet:
+                    bullets.append(bullet)
     return bullets
 
 
