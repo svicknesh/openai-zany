@@ -11,6 +11,14 @@ DEFAULT_LOG_PATH = Path("docs/sessions")
 SESSION_FILENAME = re.compile(r"^\d{4}-\d{2}-\d{2}-\d{6}-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
 
 
+def non_negative_int(value: str) -> int:
+    """Return a non-negative integer for argparse options."""
+    parsed = int(value)
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("must be zero or greater")
+    return parsed
+
+
 def parse_sessions(log_text: str) -> list[dict[str, object]]:
     """Parse second-level session headings and top-level bullets."""
     sessions: list[dict[str, object]] = []
@@ -75,14 +83,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_LOG_PATH,
         help="Session-log file or append-only session-record directory.",
     )
-    parser.add_argument("--limit", type=int, default=None, help="Maximum recent sessions to include.")
+    parser.add_argument("--limit", type=non_negative_int, default=None, help="Maximum recent sessions to include.")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    if args.limit is not None and args.limit < 0:
-        raise SystemExit("--limit must be zero or greater")
     data = session_summary_data(args.path, args.limit)
     print(json.dumps(data, indent=2, ensure_ascii=False))
     return 0 if data["status"] != "missing" else 1
